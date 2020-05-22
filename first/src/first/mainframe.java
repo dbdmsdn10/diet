@@ -12,8 +12,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,7 @@ public class mainframe extends JFrame {
 	static String[] personinfo;
 	private JButton editperson;
 	public static mainframe frame2;
+	double UsedCalori = 0;
 
 	/**
 	 * Launch the application.
@@ -65,7 +68,7 @@ public class mainframe extends JFrame {
 	 */
 	public mainframe() {
 		File met = new File("person.txt");
-
+		File used = new File("usedcalori.txt");
 		try {
 			BufferedReader met3 = new BufferedReader(new FileReader(met));
 			String line;
@@ -78,6 +81,16 @@ public class mainframe extends JFrame {
 
 			personalfirst personin = new personalfirst();
 			personin.setVisible(true);
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		// ------------------------
+		try {
+			BufferedReader used2 = new BufferedReader(new FileReader(used));
+			String line;
+			while ((line = used2.readLine()) != null) {
+				UsedCalori = Double.parseDouble(line);
+			}
 		} catch (Exception e) {
 			System.out.println("오류");
 		}
@@ -110,9 +123,16 @@ public class mainframe extends JFrame {
 		work.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Exerciseframe b = new Exerciseframe();
-				b.get(personinfo);
+				b.get(personinfo,UsedCalori);
 				b.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent k) {
+						try {
+							BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
+							make.write(Double.toString(UsedCalori+Double.parseDouble(b.kcal.getText())));
+							make.flush();
+							make.close();
+						} catch (Exception e) {
+						}
 						mainframe kk = new mainframe();
 						kk.setVisible(true);
 					}
@@ -157,7 +177,7 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
-		calori.setText(Double.toString(calro * Double.parseDouble(personinfo[4])));
+		calori.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori));
 
 	}
 

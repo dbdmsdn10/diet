@@ -27,11 +27,11 @@ public class Exerciseframe extends JFrame {
 	JList list = new JList();
 	private JTextField mettext;
 	private JTextField metvalue;
-	long time = 0, preTime = 0, pauseTime=0, time2=0;
+	long time = 0, preTime = 0, pauseTime = 0, time2 = 0;
 	private JTextField timetext;
 	TimeThread timeTh = new TimeThread();
 	private JTextField textField;
-	private JTextField kcal;
+	public JTextField kcal;
 	private JTextField txtKcal;
 	String[] personinfo;
 	double used = 0;
@@ -52,8 +52,9 @@ public class Exerciseframe extends JFrame {
 		});
 	}
 
-	public void get(String[] personinfo) {
+	public void get(String[] personinfo, double used) {
 		this.personinfo = personinfo;
+		this.used = used;
 	}
 
 	/**
@@ -170,6 +171,13 @@ public class Exerciseframe extends JFrame {
 		JButton back = new JButton("돌아가기");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
+					make.write(Double.toString(used + Double.parseDouble(kcal.getText())));
+					make.flush();
+					make.close();
+				} catch (Exception ee) {
+				}
 				mainframe frame = new mainframe();
 				frame.setVisible(true);
 				dispose();
@@ -225,9 +233,15 @@ public class Exerciseframe extends JFrame {
 			if (timeTh == null || !timeTh.isAlive()) {
 				if (time != 0)
 					preTime = System.currentTimeMillis() - time;
-				else
+				else {
 					preTime = System.currentTimeMillis();
-				pauseTime=System.currentTimeMillis();
+					try {
+						BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
+						make.write(Double.toString(used + Double.parseDouble(kcal.getText())));
+					} catch (Exception ee) {
+					}
+				}
+				pauseTime = System.currentTimeMillis();
 				timeTh = new TimeThread();
 				timeTh.start();
 			}
@@ -242,9 +256,9 @@ public class Exerciseframe extends JFrame {
 			if (timeTh.isAlive()) {
 				timeTh.interrupt();
 				list.setEnabled(true);
-				used=Double.parseDouble( kcal.getText());
+				used = Double.parseDouble(kcal.getText());
 			}
-			
+
 		}
 
 	}
@@ -257,7 +271,7 @@ public class Exerciseframe extends JFrame {
 				list.setEnabled(true);
 				timeTh.interrupt();
 			}
-			pauseTime=0;
+			pauseTime = 0;
 			time = 0;
 			used = 0;
 		}
@@ -281,14 +295,15 @@ public class Exerciseframe extends JFrame {
 					list.setEnabled(false);
 					list.setFocusable(false);
 					sleep(10);
-					
+
 					time = System.currentTimeMillis() - preTime;
 					timetext.setText(toTime(time));
-					time2=System.currentTimeMillis() - pauseTime;
-					double kkk = Math.round(Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) / 12000
-							* (time2 % (1000.0 * 60) / 1000.0) * 100) / 100.0;
-					
-					kcal.setText(Double.toString(Math.round((kkk+used)*100)/100.0));
+					time2 = System.currentTimeMillis() - pauseTime;
+					double kkk = Math.round(Double.parseDouble(metvalue.getText()) * 35
+							* Double.parseDouble(personinfo[0]) / 12000 * (time2 % (1000.0 * 60) / 1000.0) * 100)
+							/ 100.0;
+
+					kcal.setText(Double.toString(Math.round((kkk + used) * 100) / 100.0));
 				}
 			} catch (Exception e) {
 			}
