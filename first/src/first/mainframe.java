@@ -29,8 +29,9 @@ public class mainframe extends JFrame {
 
 	static String[] personinfo;
 	private JButton editperson;
-	public static mainframe frame2;
-	double UsedCalori = 0;
+	public static mainframe frame;
+	private JTextField showcar;
+	double UsedCalori=0;
 
 	/**
 	 * Launch the application.
@@ -55,9 +56,7 @@ public class mainframe extends JFrame {
 			System.out.println("오류");
 		}
 		if (w) {
-
-			mainframe frame = new mainframe();
-			frame2 = frame;
+			frame = new mainframe();
 			frame.setVisible(true);
 		}
 
@@ -102,15 +101,6 @@ public class mainframe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		calori = new JTextField();
-		calori.setBackground(Color.WHITE);
-		calori.setEnabled(false);
-		calori.setEditable(false);
-		calori.setToolTipText("\uC74C\uC2DD\uC774\uB984");
-		calori.setBounds(104, 30, 242, 59);
-		contentPane.add(calori);
-		calori.setColumns(10);
-
 		JButton btnNewButton = new JButton("\uC74C\uC2DD\uC774\uB984 \uAC80\uC0C9");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -126,6 +116,7 @@ public class mainframe extends JFrame {
 				b.get(personinfo,UsedCalori);
 				b.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent k) {
+						b.timeTh.interrupt();
 						try {
 							BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
 							make.write(Double.toString(UsedCalori+Double.parseDouble(b.kcal.getText())));
@@ -168,8 +159,14 @@ public class mainframe extends JFrame {
 		});
 		editperson.setBounds(265, 179, 109, 23);
 		contentPane.add(editperson);
-		double calro = 10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
-				- 5 * Integer.parseInt(personinfo[2]);
+		
+		showcar = new JTextField();
+		showcar.setEnabled(false);
+		showcar.setEditable(false);
+		showcar.setBounds(19, 10, 334, 98);
+		contentPane.add(showcar);
+		double calro=10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
+		- 5 * Integer.parseInt(personinfo[2]);
 		int gender2 = 0;
 		if (personinfo[3].equals("m")) {
 			gender2 = 5;
@@ -177,7 +174,7 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
-		calori.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori));
+		showcar.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori));
 
 	}
 
