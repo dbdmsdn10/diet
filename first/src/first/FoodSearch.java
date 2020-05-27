@@ -2,6 +2,8 @@ package first;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +30,9 @@ public class FoodSearch extends JFrame {
 	private JTextField textField;
 	ArrayList<String> food = new ArrayList<String>();
 	private JScrollPane scrollPane;
+	JButton btnNewButton = new JButton("\uAC80\uC0C9");
+	
+	Action a = new Action();
 	
 	public static void main(String[] args) {
 		
@@ -97,9 +102,10 @@ public class FoodSearch extends JFrame {
 		panel.add(textField);
 		textField.setColumns(10);
 		
-		JButton btnNewButton = new JButton("\uAC80\uC0C9");
 		btnNewButton.setBounds(400, 38, 172, 23);
+		btnNewButton.addActionListener(a);
 		panel.add(btnNewButton);
+		
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 94, 404, 243);
@@ -121,4 +127,28 @@ public class FoodSearch extends JFrame {
 		scrollBar.setBounds(400, 94, 17, 241);
 		panel.add(scrollBar);
 	}
+	
+		public class Action implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource() == btnNewButton ) {
+					
+					for(String element : food) {
+						//System.out.println(element);
+						if(textField.getText().contains(element)) {
+							System.out.println("hello");
+							System.out.println(element);
+							
+						}
+						else {
+							System.out.println("Nao tem ");
+						}
+					}
+				}
+				
+			}
+			
+		}
+	
 }
