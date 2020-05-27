@@ -157,13 +157,13 @@ public class mainframe extends JFrame {
 				dispose();
 			}
 		});
-		editperson.setBounds(265, 179, 109, 23);
+		editperson.setBounds(265, 179, 123, 23);
 		contentPane.add(editperson);
 		
 		showcar = new JTextField();
 		showcar.setEnabled(false);
 		showcar.setEditable(false);
-		showcar.setBounds(19, 10, 334, 98);
+		showcar.setBounds(19, 10, 369, 98);
 		contentPane.add(showcar);
 		double calro=10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
 		- 5 * Integer.parseInt(personinfo[2]);

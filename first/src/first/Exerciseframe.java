@@ -42,6 +42,7 @@ public class Exerciseframe extends JFrame {
 	private JTextField textField_3;
 	double savecalcori = 0;
 	private JTextField secondtime;
+	JButton 시작 = new JButton("시작");
 
 	/**
 	 * Launch the application.
