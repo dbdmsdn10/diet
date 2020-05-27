@@ -106,11 +106,9 @@ public class FoodSearch extends JFrame {
 		
 		DefaultListModel listModel = new DefaultListModel();
 		
-		int i = 0;
 		for(String element : food) {
 			System.out.println(element);
-			listModel.add(i, element);
-			i++;
+			listModel.addElement(element);
 		}
 		JList list = new JList(listModel);
 		
