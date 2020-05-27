@@ -2,29 +2,67 @@ package first;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JScrollBar;
 
 public class FoodSearch extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTable table;
-	//String[] comidas  = {"arroz","feijao", "macarrao", "Carne"};
+	ArrayList<String> food = new ArrayList<String>();
+	private JScrollPane scrollPane;
 	
 	public static void main(String[] args) {
+		
+		File cal = new File("food calory.txt");
+		ArrayList<String> getFood = new ArrayList<String>();
+		String line;
+	
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(cal));
+			while (reader.readLine()!=null) {
+				line = reader.readLine() + "cal";
+				getFood.add(line);
+			//System.out.println(line);
+				
+			}
+			
+			
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FoodSearch frame = new FoodSearch();
+					FoodSearch frame = new FoodSearch(getFood);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -34,9 +72,9 @@ public class FoodSearch extends JFrame {
 	}
 
 	
-	public FoodSearch() {
-		String[][] comidas  = {{"arroz","100g"},{"feijao ,"200g"}, "macarrao", "Carne"
-								"100g", "200g",  "300g",    "400g"}
+	public FoodSearch(ArrayList f) {
+		this.food = f;
+		String[][] comidas  = {{"arroz","100g"},{"feijao" ,"200g"},{ "macarrao" ,"300g"}, {"Carne","400g"}};
 		setTitle("Health Life");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 614, 402);
@@ -63,8 +101,24 @@ public class FoodSearch extends JFrame {
 		btnNewButton.setBounds(400, 38, 172, 23);
 		panel.add(btnNewButton);
 		
-		table = new JTable();
-		table.setBounds(12, 95, 406, 213);
-		panel.add(table);
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 94, 404, 243);
+		panel.add(scrollPane);
+		
+		DefaultListModel listModel = new DefaultListModel();
+		
+		int i = 0;
+		for(String element : food) {
+			System.out.println(element);
+			listModel.add(i, element);
+			i++;
+		}
+		JList list = new JList(listModel);
+		
+		scrollPane.setViewportView(list);
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(400, 94, 17, 241);
+		panel.add(scrollBar);
 	}
 }
