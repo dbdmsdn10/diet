@@ -39,7 +39,7 @@ public class FoodSearch extends JFrame {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(cal));
 			while (reader.readLine()!=null) {
-				line = reader.readLine() + "cal";
+				line = reader.readLine() + "  cal";
 				getFood.add(line);
 			//System.out.println(line);
 				
@@ -74,7 +74,6 @@ public class FoodSearch extends JFrame {
 	
 	public FoodSearch(ArrayList f) {
 		this.food = f;
-		String[][] comidas  = {{"arroz","100g"},{"feijao" ,"200g"},{ "macarrao" ,"300g"}, {"Carne","400g"}};
 		setTitle("Health Life");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 614, 402);
