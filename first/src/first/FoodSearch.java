@@ -28,31 +28,36 @@ public class FoodSearch extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-	ArrayList<String> food = new ArrayList<String>();
+	String[][] food;
 	private JScrollPane scrollPane;
 	JButton btnNewButton = new JButton("\uAC80\uC0C9");
+	DefaultListModel listModel = new DefaultListModel();
+	JList list;
 	
+	Integer find[];
 	Action a = new Action();
 	
 	public static void main(String[] args) {
 		
 		File cal = new File("food calory.txt");
-		ArrayList<String> getFood = new ArrayList<String>();
-		String line;
+		String line = null;
+		String[] a = new String[230];
+		String [][] Food = new String[29866][230];
 		
-		
+		int i = 0;
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(cal));
-			while (reader.readLine()!=null) {
-				line = reader.readLine();
-				System.out.println(line);
-				getFood.add(line);
 			
+			while((line = reader.readLine() )!=null) {
+				 a = line.split("\t");
+				 
+				 for(int j=0;j<a.length;j++) {
+					 Food[i][j] = a[j];
+					
+				 }
+				i++;
 				
-			}
-			
-			
-			
+				}
 			
 			
 		} catch (FileNotFoundException e) {
@@ -68,7 +73,7 @@ public class FoodSearch extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FoodSearch frame = new FoodSearch(getFood);
+					FoodSearch frame = new FoodSearch(Food);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -78,8 +83,9 @@ public class FoodSearch extends JFrame {
 	}
 
 	
-	public FoodSearch(ArrayList f) {
+	public FoodSearch(String[][] f) {
 		this.food = f;
+		
 		setTitle("Health Life");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 614, 402);
@@ -111,15 +117,20 @@ public class FoodSearch extends JFrame {
 		scrollPane.setBounds(12, 94, 404, 243);
 		panel.add(scrollPane);
 		
-		DefaultListModel listModel = new DefaultListModel();
+		listModel = new DefaultListModel();
 		
-		int i = 0;
-		for(String element : food) {
+		find = new Integer[food.length];
+		for(int i = 4 ;i<food.length;i++) {
 			
-			listModel.add(i, element);
-			i++;
+			listModel.addElement(food[i][5] +"   "+food[i][10]+"g");
+			find[i] = i;
+
+			
+			
+
 		}
-		JList list = new JList(listModel);
+		
+		list = new JList(listModel);
 		
 		scrollPane.setViewportView(list);
 		
@@ -132,21 +143,25 @@ public class FoodSearch extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource() == btnNewButton ) {
+				int check = 0;
+				if(e.getSource() == btnNewButton)
+				list.removeAll();
+				DefaultListModel model = new DefaultListModel();
+				for(int i = 4;i<food.length;i++) {
 					
-					for(String element : food) {
-					
-						if(textField.getText().contains(element)) {
-							System.out.println("hello");
-							System.out.println(element);
-							
-						}
-						else {
-							System.out.println("Nao tem ");
-						}
+					if(food[i][5].contains(textField.getText())){
+						model.addElement(food[i][5] +"   "+food[i][10]+"g");
+						check++;
 					}
+					
+					
 				}
-				
+				if(check == 0) {
+					textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+				}
+				else {
+					list.setModel(model);
+				}
 			}
 			
 		}
