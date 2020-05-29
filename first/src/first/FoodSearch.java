@@ -39,14 +39,15 @@ public class FoodSearch extends JFrame {
 		File cal = new File("food calory.txt");
 		ArrayList<String> getFood = new ArrayList<String>();
 		String line;
-	
+		
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(cal));
 			while (reader.readLine()!=null) {
-				line = reader.readLine() + "  cal";
+				line = reader.readLine();
+				System.out.println(line);
 				getFood.add(line);
-			//System.out.println(line);
+			
 				
 			}
 			
@@ -114,7 +115,7 @@ public class FoodSearch extends JFrame {
 		
 		int i = 0;
 		for(String element : food) {
-			System.out.println(element);
+			
 			listModel.add(i, element);
 			i++;
 		}
@@ -134,7 +135,7 @@ public class FoodSearch extends JFrame {
 				if(e.getSource() == btnNewButton ) {
 					
 					for(String element : food) {
-						//System.out.println(element);
+					
 						if(textField.getText().contains(element)) {
 							System.out.println("hello");
 							System.out.println(element);
