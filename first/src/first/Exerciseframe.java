@@ -36,9 +36,8 @@ public class Exerciseframe extends JFrame {
 	double used = 0;
 	private JTextField want;
 	double savecalcori = 0;
-	private JTextField secondtime;
 	JButton 시작 = new JButton("시작");
-
+	boolean DoOr=false;
 	/**
 	 * Launch the application.
 	 */
@@ -112,14 +111,14 @@ public class Exerciseframe extends JFrame {
 		list.setModel(model);
 
 		metvalue = new JTextField();
+		metvalue.setEditable(false);
 		metvalue.setBackground(Color.WHITE);
-		metvalue.setEnabled(false);
 		metvalue.setBounds(212, 42, 60, 21);
 		contentPane.add(metvalue);
 		metvalue.setColumns(10);
 
 		timetext = new JTextField();
-		timetext.setEnabled(false);
+		timetext.setEditable(false);
 		timetext.setBounds(256, 126, 148, 21);
 		contentPane.add(timetext);
 		timetext.setColumns(10);
@@ -137,8 +136,8 @@ public class Exerciseframe extends JFrame {
 		contentPane.add(멈춤);
 
 		kcal = new JTextField();
+		kcal.setEditable(false);
 		kcal.setBackground(Color.WHITE);
-		kcal.setEnabled(false);
 		kcal.setBounds(230, 190, 116, 21);
 		contentPane.add(kcal);
 		kcal.setColumns(10);
@@ -170,12 +169,6 @@ public class Exerciseframe extends JFrame {
 		JButton carculbutton = new JButton("계산하기");
 		carculbutton.setBounds(457, 98, 86, 23);
 		contentPane.add(carculbutton);
-
-		secondtime = new JTextField();
-		secondtime.setEnabled(false);
-		secondtime.setColumns(10);
-		secondtime.setBounds(229, 229, 148, 21);
-		contentPane.add(secondtime);
 		
 		JLabel lblNewLabel = new JLabel("운동강도");
 		lblNewLabel.setBounds(150, 45, 57, 15);
@@ -392,8 +385,8 @@ public class Exerciseframe extends JFrame {
 				time3=hour*1000 * 60 * 60;
 				time3 += 1000 * 60 * min;
 				time3 += sec * 1000 + ms * 10;
-				secondtime.setText(toTime(time3));
-
+				DoOr=true;
+				timetext.setText(toTime(time3));
 			}
 
 		}
@@ -408,8 +401,13 @@ public class Exerciseframe extends JFrame {
 					list.setEnabled(false);
 					list.setFocusable(false);
 					sleep(10);
-
-					time = System.currentTimeMillis() - preTime;
+					if(DoOr) {
+						time=time3-(System.currentTimeMillis() - preTime);
+						
+						}
+						else {
+							time = System.currentTimeMillis() - preTime;
+						}
 					timetext.setText(toTime(time));
 					time2 = System.currentTimeMillis() - pauseTime;
 					double mincar = (Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
@@ -421,7 +419,12 @@ public class Exerciseframe extends JFrame {
 					double kkk = Math.round((mincar + seccar + msseccar) * 100) / 100.0;
 
 					kcal.setText(Double.toString(Math.round((kkk + used) * 100) / 100.0));
-
+					if(time<0)
+					{
+						JOptionPane.showMessageDialog(null, "시간종료");
+						DoOr=false;
+						interrupt();
+					}
 				}
 			} catch (Exception e) {
 			}

@@ -2,6 +2,7 @@ package first;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,7 +33,7 @@ public class mainframe extends JFrame {
 	public static mainframe frame;
 	private JTextField showcar;
 	double UsedCalori=0;
-
+	Font font=new Font("돋움",1,40);
 	/**
 	 * Launch the application.
 	 */
@@ -161,10 +162,11 @@ public class mainframe extends JFrame {
 		contentPane.add(editperson);
 		
 		showcar = new JTextField();
-		showcar.setEnabled(false);
 		showcar.setEditable(false);
 		showcar.setBounds(19, 10, 369, 98);
 		contentPane.add(showcar);
+		showcar.setFont(font);
+		showcar.setHorizontalAlignment(JTextField.CENTER);
 		double calro=10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
 		- 5 * Integer.parseInt(personinfo[2]);
 		int gender2 = 0;
