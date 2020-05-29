@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.Color;
+import javax.swing.JLabel;
 
 public class Exerciseframe extends JFrame {
 
@@ -26,20 +27,14 @@ public class Exerciseframe extends JFrame {
 	String[][] mettable = null;
 	Integer[] find = null;
 	JList list = new JList();
-	private JTextField mettext;
 	private JTextField metvalue;
 	long time = 0, preTime = 0, pauseTime = 0, time2 = 0, time3 = 0;
 	private JTextField timetext;
 	TimeThread timeTh = new TimeThread();
-	private JTextField textField;
 	public JTextField kcal;
-	private JTextField txtKcal;
 	String[] personinfo;
 	double used = 0;
-	private JTextField txtStopwatch;
-	private JTextField textField_1;
 	private JTextField want;
-	private JTextField textField_3;
 	double savecalcori = 0;
 	private JTextField secondtime;
 	JButton 시작 = new JButton("시작");
@@ -116,15 +111,6 @@ public class Exerciseframe extends JFrame {
 		scrollPane.setViewportView(list);
 		list.setModel(model);
 
-		mettext = new JTextField();
-		mettext.setEnabled(false);
-		mettext.setBackground(Color.WHITE);
-		mettext.setText("운동강도");
-		mettext.setBounds(140, 42, 60, 21);
-		mettext.setForeground(Color.black);
-		contentPane.add(mettext);
-		mettext.setColumns(10);
-
 		metvalue = new JTextField();
 		metvalue.setBackground(Color.WHITE);
 		metvalue.setEnabled(false);
@@ -150,28 +136,12 @@ public class Exerciseframe extends JFrame {
 		멈춤.setBounds(358, 157, 97, 23);
 		contentPane.add(멈춤);
 
-		textField = new JTextField();
-		textField.setBackground(Color.WHITE);
-		textField.setEnabled(false);
-		textField.setText("소비칼로리");
-		textField.setBounds(140, 190, 75, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
-
 		kcal = new JTextField();
 		kcal.setBackground(Color.WHITE);
 		kcal.setEnabled(false);
 		kcal.setBounds(230, 190, 116, 21);
 		contentPane.add(kcal);
 		kcal.setColumns(10);
-
-		txtKcal = new JTextField();
-		txtKcal.setBackground(Color.WHITE);
-		txtKcal.setEnabled(false);
-		txtKcal.setText("kcal");
-		txtKcal.setBounds(368, 190, 36, 21);
-		contentPane.add(txtKcal);
-		txtKcal.setColumns(10);
 
 		JButton back = new JButton("돌아가기");
 		back.addActionListener(new ActionListener() {
@@ -192,35 +162,10 @@ public class Exerciseframe extends JFrame {
 		back.setBounds(457, 317, 97, 23);
 		contentPane.add(back);
 
-		txtStopwatch = new JTextField();
-		txtStopwatch.setForeground(Color.BLACK);
-		txtStopwatch.setBackground(Color.WHITE);
-		txtStopwatch.setEnabled(false);
-		txtStopwatch.setText("stopwatch");
-		txtStopwatch.setBounds(140, 126, 108, 21);
-		contentPane.add(txtStopwatch);
-		txtStopwatch.setColumns(10);
-
-		textField_1 = new JTextField();
-		textField_1.setText("빼고싶은 칼로리");
-		textField_1.setBackground(Color.WHITE);
-		textField_1.setEnabled(false);
-		textField_1.setBounds(140, 99, 108, 21);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
-
 		want = new JTextField();
 		want.setBounds(256, 99, 148, 21);
 		contentPane.add(want);
 		want.setColumns(10);
-
-		textField_3 = new JTextField();
-		textField_3.setText("kcal");
-		textField_3.setEnabled(false);
-		textField_3.setColumns(10);
-		textField_3.setBackground(Color.WHITE);
-		textField_3.setBounds(406, 99, 36, 21);
-		contentPane.add(textField_3);
 
 		JButton carculbutton = new JButton("계산하기");
 		carculbutton.setBounds(457, 98, 86, 23);
@@ -231,6 +176,30 @@ public class Exerciseframe extends JFrame {
 		secondtime.setColumns(10);
 		secondtime.setBounds(229, 229, 148, 21);
 		contentPane.add(secondtime);
+		
+		JLabel lblNewLabel = new JLabel("운동강도");
+		lblNewLabel.setBounds(150, 45, 57, 15);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("빼고싶은 칼로리");
+		lblNewLabel_1.setBounds(140, 101, 108, 15);
+		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("StopWatch");
+		lblNewLabel_2.setBounds(140, 129, 97, 15);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("소비칼로리");
+		lblNewLabel_3.setBounds(140, 193, 97, 15);
+		contentPane.add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Kcal");
+		lblNewLabel_4.setBounds(358, 193, 57, 15);
+		contentPane.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("Kcal");
+		lblNewLabel_5.setBounds(410, 102, 57, 15);
+		contentPane.add(lblNewLabel_5);
 		JListSelect select = new JListSelect();
 		list.addListSelectionListener(select);
 
@@ -253,7 +222,7 @@ public class Exerciseframe extends JFrame {
 			list.removeAll();
 			// TODO Auto-generated method stub
 			findint a = new findint();
-			find = a.find(mettable, name.getText());
+			find = a.find(mettable, name.getText(),0,0);
 			DefaultListModel model = new DefaultListModel();
 			for (int i = 0; i < find.length; i++) {
 				model.addElement(mettable[find[i]][0]);

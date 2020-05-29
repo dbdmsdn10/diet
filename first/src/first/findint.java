@@ -3,11 +3,11 @@ package first;
 import java.util.ArrayList;
 
 public class findint {
-	public Integer[] find(String[][] a, String b) {
+	public Integer[] find(String[][] a, String b,int d,int start) {
 		ArrayList<Integer> c=new ArrayList<Integer>();
-		for(int i=0;i<a.length;i++)
+		for(int i=start;i<a.length;i++)
 		{
-			if(a[i][0].contains(b))
+			if(a[i][d].contains(b))
 			{
 				c.add(i);
 			}
