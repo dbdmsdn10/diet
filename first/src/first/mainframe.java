@@ -32,8 +32,9 @@ public class mainframe extends JFrame {
 	private JButton editperson;
 	public static mainframe frame;
 	private JTextField showcar;
-	double UsedCalori=0;
-	Font font=new Font("돋움",1,40);
+	double UsedCalori = 0, EatKcal = 0;
+	Font font = new Font("돋움", 1, 40);
+
 	/**
 	 * Launch the application.
 	 */
@@ -69,6 +70,7 @@ public class mainframe extends JFrame {
 	public mainframe() {
 		File met = new File("person.txt");
 		File used = new File("usedcalori.txt");
+		File eatkcal = new File("totalkcal.txt");
 		try {
 			BufferedReader met3 = new BufferedReader(new FileReader(met));
 			String line;
@@ -94,6 +96,17 @@ public class mainframe extends JFrame {
 		} catch (Exception e) {
 			System.out.println("오류");
 		}
+		// -----------------------
+		try {
+			BufferedReader used2 = new BufferedReader(new FileReader(eatkcal));
+			String line;
+			while ((line = used2.readLine()) != null) {
+				UsedCalori = Double.parseDouble(line);
+			}
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		// -----------------
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 459, 241);
@@ -102,25 +115,42 @@ public class mainframe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton btnNewButton = new JButton("\uC74C\uC2DD\uC774\uB984 \uAC80\uC0C9");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton food = new JButton("\uC74C\uC2DD\uC774\uB984 \uAC80\uC0C9");
+		food.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				days b = new days();
+				b.addWindowListener(new WindowAdapter() {
+					public void windowClosing(WindowEvent k) {
+						try {
+							BufferedWriter make = new BufferedWriter(new FileWriter("totalkcal.txt", false));
+							make.write(Double.toString(b.total));
+							make.flush();
+							make.close();
+						} catch (Exception e) {
+
+						}
+						mainframe kk = new mainframe();
+						kk.setVisible(true);
+					}
+				});
+				b.setVisible(true);
+				dispose();
 			}
 		});
-		btnNewButton.setBounds(12, 118, 123, 23);
-		contentPane.add(btnNewButton);
-
+		food.setBounds(12, 118, 123, 23);
+		contentPane.add(food);
+//----------------------------------------
 		JButton work = new JButton("\uC6B4\uB3D9\uD558\uAE30");
 		work.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Exerciseframe b = new Exerciseframe();
-				b.get(personinfo,UsedCalori);
+				b.get(personinfo, UsedCalori);
 				b.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent k) {
 						b.timeTh.interrupt();
 						try {
 							BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
-							make.write(Double.toString(UsedCalori+Double.parseDouble(b.kcal.getText())));
+							make.write(Double.toString(UsedCalori + Double.parseDouble(b.kcal.getText())));
 							make.flush();
 							make.close();
 						} catch (Exception e) {
@@ -160,15 +190,15 @@ public class mainframe extends JFrame {
 		});
 		editperson.setBounds(265, 179, 123, 23);
 		contentPane.add(editperson);
-		
+
 		showcar = new JTextField();
 		showcar.setEditable(false);
 		showcar.setBounds(19, 10, 369, 98);
 		contentPane.add(showcar);
 		showcar.setFont(font);
 		showcar.setHorizontalAlignment(JTextField.CENTER);
-		double calro=10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
-		- 5 * Integer.parseInt(personinfo[2]);
+		double calro = 10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
+				- 5 * Integer.parseInt(personinfo[2]);
 		int gender2 = 0;
 		if (personinfo[3].equals("m")) {
 			gender2 = 5;
@@ -176,7 +206,7 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
-		showcar.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori));
+		showcar.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal));
 
 	}
 
