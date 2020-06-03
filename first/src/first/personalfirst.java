@@ -20,6 +20,7 @@ import java.awt.Color;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 
 public class personalfirst extends JFrame {
 
@@ -27,10 +28,6 @@ public class personalfirst extends JFrame {
 	private JTextField weight;
 	private JTextField height;
 	private JTextField age;
-	private JTextField q4;
-	private JTextField q5;
-	private JTextField q6;
-	private JTextField q7;
 	private JButton confirm;
 	private JButton cancle;
 	ButtonGroup gender = new ButtonGroup();
@@ -40,6 +37,9 @@ public class personalfirst extends JFrame {
 	JRadioButton less = new JRadioButton("적당히 돌아다님");
 	JRadioButton somtimes = new JRadioButton("가끔운동함");
 	JRadioButton everyday = new JRadioButton("매일운동함");
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
 	/**
 	 * Launch the application.
 	 */
@@ -81,46 +81,6 @@ public class personalfirst extends JFrame {
 		age.setBounds(82, 99, 116, 21);
 		contentPane.add(age);
 		age.setColumns(10);
-		
-		q4 = new JTextField();
-		q4.setBackground(Color.WHITE);
-		q4.setEditable(false);
-		q4.setEnabled(false);
-		q4.setText("\uBAB8\uBB34\uAC8C");
-		q4.setForeground(Color.BLACK);
-		q4.setBounds(13, 10, 57, 21);
-		contentPane.add(q4);
-		q4.setColumns(10);
-		
-		q5 = new JTextField();
-		q5.setBackground(Color.WHITE);
-		q5.setText("\uD0A4");
-		q5.setForeground(Color.BLACK);
-		q5.setEnabled(false);
-		q5.setEditable(false);
-		q5.setColumns(10);
-		q5.setBounds(13, 55, 57, 21);
-		contentPane.add(q5);
-		
-		q6 = new JTextField();
-		q6.setBackground(Color.WHITE);
-		q6.setText("\uB098\uC774");
-		q6.setForeground(Color.BLACK);
-		q6.setEnabled(false);
-		q6.setEditable(false);
-		q6.setColumns(10);
-		q6.setBounds(13, 99, 57, 21);
-		contentPane.add(q6);
-		
-		q7 = new JTextField();
-		q7.setBackground(Color.WHITE);
-		q7.setText("\uC131\uBCC4");
-		q7.setForeground(Color.BLACK);
-		q7.setEnabled(false);
-		q7.setEditable(false);
-		q7.setColumns(10);
-		q7.setBounds(13, 130, 57, 21);
-		contentPane.add(q7);
 		
 		
 		남.setBounds(82, 129, 45, 23);
@@ -169,6 +129,22 @@ public class personalfirst extends JFrame {
 		move.add(less);
 		move.add(somtimes);
 		move.add(everyday);
+		
+		lblNewLabel = new JLabel("몸무게");
+		lblNewLabel.setBounds(13, 13, 57, 15);
+		contentPane.add(lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("키");
+		lblNewLabel_1.setBounds(13, 58, 57, 15);
+		contentPane.add(lblNewLabel_1);
+		
+		lblNewLabel_2 = new JLabel("나이");
+		lblNewLabel_2.setBounds(13, 102, 57, 15);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("성별");
+		lblNewLabel_3.setBounds(13, 133, 57, 15);
+		contentPane.add(lblNewLabel_3);
 	}
 
 
@@ -261,5 +237,4 @@ public class personalfirst extends JFrame {
 			}
 		}
 	}
-
 }
