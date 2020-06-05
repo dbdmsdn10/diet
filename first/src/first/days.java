@@ -3,6 +3,11 @@ package first;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,12 +19,12 @@ import javax.swing.JLabel;
 public class days extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-
+	private JTextField morningt;
+	private JTextField luncht;
+	private JTextField dinnert;
+	private JTextField snackt;
+	private JTextField totalt;
+	int total=0;
 	/**
 	 * Launch the application.
 	 */
@@ -40,7 +45,7 @@ public class days extends JFrame {
 	 * Create the frame.
 	 */
 	public days() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 522, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -59,41 +64,123 @@ public class days extends JFrame {
 		btnNewButton_2.setBounds(253, 186, 97, 23);
 		contentPane.add(btnNewButton_2);
 		
-		textField = new JTextField();
-		textField.setBounds(12, 139, 97, 21);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		morningt = new JTextField();
+		morningt.setEditable(false);
+		morningt.setBounds(12, 139, 97, 21);
+		contentPane.add(morningt);
+		morningt.setColumns(10);
+		morningt.setHorizontalAlignment(JTextField.CENTER);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(131, 139, 97, 21);
-		contentPane.add(textField_1);
+		luncht = new JTextField();
+		luncht.setEditable(false);
+		luncht.setColumns(10);
+		luncht.setBounds(131, 139, 97, 21);
+		contentPane.add(luncht);
+		luncht.setHorizontalAlignment(JTextField.CENTER);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(253, 139, 97, 21);
-		contentPane.add(textField_2);
+		dinnert = new JTextField();
+		dinnert.setEditable(false);
+		dinnert.setColumns(10);
+		dinnert.setBounds(253, 139, 97, 21);
+		contentPane.add(dinnert);
+		dinnert.setHorizontalAlignment(JTextField.CENTER);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(378, 139, 116, 21);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
+		snackt = new JTextField();
+		snackt.setEditable(false);
+		snackt.setBounds(378, 139, 116, 21);
+		contentPane.add(snackt);
+		snackt.setColumns(10);
+		snackt.setHorizontalAlignment(JTextField.CENTER);
+		
 		
 		JButton btnNewButton_3 = new JButton("간식 및 야식");
 		btnNewButton_3.setBounds(378, 186, 116, 23);
 		contentPane.add(btnNewButton_3);
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		textField_4.setBounds(12, 36, 463, 61);
+		totalt = new JTextField();
+		totalt.setEditable(false);
+		totalt.setBounds(12, 36, 463, 61);
 		Font font=new Font("돋움",1, 20);
-		textField_4.setFont(font);
-		textField_4.setHorizontalAlignment(JTextField.CENTER);
-		contentPane.add(textField_4);
-		textField_4.setColumns(10);
+		totalt.setFont(font);
+		totalt.setHorizontalAlignment(JTextField.CENTER);
+		contentPane.add(totalt);
+		totalt.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("섭취한 칼로리");
 		lblNewLabel.setBounds(12, 11, 88, 15);
 		contentPane.add(lblNewLabel);
+		//---------------------
+		File breakfast = new File("breakfast.txt");
+		try {
+			BufferedReader breakfast2 = new BufferedReader(new FileReader(breakfast));
+			String line;
+			double kar=0;
+			while ((line = breakfast2.readLine()) != null) {
+				String[] a = line.split("	");
+				kar+=Double.parseDouble(a[1]);//
+				
+			}
+			morningt.setText(kar+" kcal");
+			total+=kar;
+		} catch (IOException q) {// 파일 읽기 오류
+			morningt.setText("null");
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		//----------------------
+		File lunch = new File("lunch.txt");
+		try {
+			BufferedReader lunch2 = new BufferedReader(new FileReader(lunch));
+			String line;
+			double kar=0;
+			while ((line = lunch2.readLine()) != null) {
+				String[] a = line.split("	");
+				kar+=Double.parseDouble(a[1]);//
+				
+			}
+			luncht.setText(kar+" kcal");
+			total+=kar;
+		} catch (IOException q) {// 파일 읽기 오류
+			luncht.setText("null");
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		//------------------------
+		File dinner = new File("dinner.txt");
+		try {
+			BufferedReader dinner2 = new BufferedReader(new FileReader(dinner));
+			String line;
+			double kar=0;
+			while ((line = dinner2.readLine()) != null) {
+				String[] a = line.split("	");
+				kar+=Double.parseDouble(a[1]);//
+				
+			}
+			dinnert.setText(kar+" kcal");
+			total+=kar;
+		} catch (IOException q) {// 파일 읽기 오류
+			dinnert.setText("null");
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		//---------------------
+		File snack = new File("snack.txt");
+		try {
+			BufferedReader snack2 = new BufferedReader(new FileReader(snack));
+			String line;
+			double kar=0;
+			while ((line = snack2.readLine()) != null) {
+				String[] a = line.split("	");
+				kar+=Double.parseDouble(a[1]);//
+				
+			}
+			snackt.setText(kar+" kcal");
+			total+=kar;
+		} catch (IOException q) {// 파일 읽기 오류
+			snackt.setText("null");
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		totalt.setText(total+" kcal");
 	}
 }
