@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,12 +24,14 @@ import first.Exerciseframe.JListSelect;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
+import javax.swing.JRadioButton;
 
 public class FoodSearch extends JFrame {
 
@@ -38,6 +42,10 @@ public class FoodSearch extends JFrame {
 	JButton btnNewButton = new JButton("\uAC80\uC0C9");
 	DefaultListModel listModel = new DefaultListModel();
 	JList list;
+	JRadioButton Frozen = new JRadioButton("냉동");
+	JRadioButton ingredient = new JRadioButton("재료");
+	JRadioButton orderingFood = new JRadioButton("시켜먹는것");
+	JRadioButton cook = new JRadioButton("요리");
 
 	Integer find[];
 	Action a = new Action();
@@ -107,7 +115,7 @@ public class FoodSearch extends JFrame {
 		panel.add(lblNewLabel);
 
 		textField = new JTextField();
-		textField.setBounds(12, 39, 329, 21);
+		textField.setBounds(12, 39, 329, 23);
 		panel.add(textField);
 		textField.setColumns(10);
 
@@ -116,7 +124,7 @@ public class FoodSearch extends JFrame {
 		panel.add(btnNewButton);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 94, 404, 243);
+		scrollPane.setBounds(12, 157, 404, 180);
 		panel.add(scrollPane);
 
 		listModel = new DefaultListModel();
@@ -134,13 +142,32 @@ public class FoodSearch extends JFrame {
 		scrollPane.setViewportView(list);
 
 		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBounds(400, 94, 17, 241);
+		scrollBar.setBounds(400, 157, 17, 178);
 		panel.add(scrollBar);
 		
 		Nutrients = new JTextField();
 		Nutrients.setBounds(428, 93, 116, 21);
 		panel.add(Nutrients);
 		Nutrients.setColumns(10);
+		
+		Frozen.setBounds(12, 77, 121, 23);
+		panel.add(Frozen);
+		
+		ingredient.setBounds(12, 115, 121, 23);
+		panel.add(ingredient);
+		
+		orderingFood.setBounds(220, 77, 121, 23);
+		panel.add(orderingFood);
+		
+		cook.setBounds(220, 115, 121, 23);
+		panel.add(cook);
+		
+		ButtonGroup btnG = new ButtonGroup();
+		btnG.add(Frozen);
+		btnG.add(ingredient);
+		btnG.add(orderingFood);
+		btnG.add(cook);
+		
 		
 		JListSelect select = new JListSelect();
 		list.addListSelectionListener(select);
@@ -151,23 +178,85 @@ public class FoodSearch extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int check = 0;
-			if (e.getSource() == btnNewButton)
+			if (e.getSource() == btnNewButton) {
 				list.removeAll();
-			DefaultListModel model = new DefaultListModel();
+				DefaultListModel model = new DefaultListModel();
 
-			findint find2 = new findint();
-			
-			find = find2.find(food, textField.getText(), 5,4);
-			for (int i = 0; i < find.length; i++) {
-				model.addElement(food[find[i]][5] + "   " + food[find[i]][10] + "g");
-				check++;
-			}
-			if (check == 0) {
-				textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
-			} else {
-				list.setModel(model);
+				findint find2 = new findint();
+				if(Frozen.isSelected()) {
+					find = find2.findPerCategory(food, textField.getText(), 5,4,1);
+					for (int i = 0; i < find.length; i++) {
+						model.addElement(food[find[i]][5] + "   " + food[find[i]][3]+"   "+food[find[i]][4] +"    "+ food[find[i]][10] + "g");
+						check++;
+						}
+						if (check == 0) {
+						textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+						} 
+						else {
+						list.setModel(model);
+						}
+						
+				}
+				else if(ingredient.isSelected()) {
+					find = find2.findPerCategory(food, textField.getText(), 5,4,2);
+					for (int i = 0; i < find.length; i++) {
+						model.addElement(food[find[i]][5] + "   " + food[find[i]][3]+"   "+food[find[i]][4] +"    "+ food[find[i]][10] + "g");
+						check++;
+						}
+						if (check == 0) {
+						textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+						} 
+						else {
+						list.setModel(model);
+						}
+					
+				}
+				else if(orderingFood.isSelected()) {
+					find = find2.findPerCategory(food, textField.getText(), 5,4,3);
+					for (int i = 0; i < find.length; i++) {
+						model.addElement(food[find[i]][5] + "   " + food[find[i]][3]+"   "+food[find[i]][4] +"    "+ food[find[i]][10] + "g");
+						check++;
+						}
+						if (check == 0) {
+						textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+						} 
+						else {
+						list.setModel(model);
+						}
+				}
+				else if(cook.isSelected()) {
+					find = find2.findPerCategory(food, textField.getText(), 5,4,4);
+					for (int i = 0; i < find.length; i++) {
+						model.addElement(food[find[i]][5] + "   " + food[find[i]][3]+"   "+food[find[i]][4] +"    "+ food[find[i]][10] + "g");
+						check++;
+						}
+						if (check == 0) {
+						textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+						} 
+						else {
+						list.setModel(model);
+						}
+				}
+				
+				
+				else {
+					find = find2.find(food, textField.getText(), 5,4);
+					for (int i = 0; i < find.length; i++) {
+						
+						model.addElement(food[find[i]][5] + "   " + food[find[i]][3]+"   "+food[find[i]][4] +"    "+ food[find[i]][10]+"g");
+						check++;
+					}
+					if (check == 0) {
+						textField.setText("이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+					} 
+					else {
+						list.setModel(model);
+				}
+				}
 			}
 		}
+
+		
 
 	}
 	class JListSelect implements ListSelectionListener {
