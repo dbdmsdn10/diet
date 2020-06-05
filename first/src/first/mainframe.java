@@ -26,7 +26,6 @@ public class mainframe extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField calori;
-	private JTextField textField_1;
 
 	static String[] personinfo;
 	private JButton editperson;
@@ -55,7 +54,6 @@ public class mainframe extends JFrame {
 			personin.setVisible(true);
 		} catch (Exception e) {
 			w = false;
-			System.out.println("오류");
 		}
 		if (w) {
 			frame = new mainframe();
@@ -84,7 +82,7 @@ public class mainframe extends JFrame {
 			personalfirst personin = new personalfirst();
 			personin.setVisible(true);
 		} catch (Exception e) {
-			System.out.println("오류");
+			e.printStackTrace();
 		}
 		// ------------------------
 		try {
@@ -93,18 +91,22 @@ public class mainframe extends JFrame {
 			while ((line = used2.readLine()) != null) {
 				UsedCalori = Double.parseDouble(line);
 			}
+		} catch (IOException q) {// 파일 읽기 오류
+			
 		} catch (Exception e) {
-			System.out.println("오류");
+			e.printStackTrace();
 		}
 		// -----------------------
 		try {
 			BufferedReader used2 = new BufferedReader(new FileReader(eatkcal));
 			String line;
 			while ((line = used2.readLine()) != null) {
-				UsedCalori = Double.parseDouble(line);
+				EatKcal = Double.parseDouble(line);
 			}
-		} catch (Exception e) {
-			System.out.println("오류");
+		}catch (IOException q) {// 파일 읽기 오류
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
 		}
 		// -----------------
 		setResizable(false);
@@ -115,10 +117,11 @@ public class mainframe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton food = new JButton("\uC74C\uC2DD\uC774\uB984 \uAC80\uC0C9");
+		JButton food = new JButton("먹인것 조회및 입력하기");
 		food.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				days b = new days();
+				b.one();
 				b.addWindowListener(new WindowAdapter() {
 					public void windowClosing(WindowEvent k) {
 						try {
@@ -137,7 +140,7 @@ public class mainframe extends JFrame {
 				dispose();
 			}
 		});
-		food.setBounds(12, 118, 123, 23);
+		food.setBounds(12, 118, 174, 23);
 		contentPane.add(food);
 //----------------------------------------
 		JButton work = new JButton("\uC6B4\uB3D9\uD558\uAE30");
@@ -164,13 +167,8 @@ public class mainframe extends JFrame {
 			}
 		});
 
-		work.setBounds(277, 118, 97, 23);
+		work.setBounds(245, 118, 155, 23);
 		contentPane.add(work);
-
-		textField_1 = new JTextField();
-		textField_1.setBounds(147, 119, 116, 21);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
 
 		editperson = new JButton("개인정보 수정");
 		editperson.addActionListener(new ActionListener() {
@@ -206,7 +204,8 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
-		showcar.setText(Double.toString(calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal));
+		
+		showcar.setText(Double.toString(((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal) *100) / 100.0));
 
 	}
 
