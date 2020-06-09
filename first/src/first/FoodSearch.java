@@ -59,7 +59,9 @@ public class FoodSearch extends JFrame {
 	Integer[] eatthinglist = {};
 	ArrayList<Integer> eatthing = new ArrayList<Integer>();
 	String name = "";
-
+	boolean catebakup=false;
+	Integer[] findarray2;
+	
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
@@ -231,7 +233,10 @@ public class FoodSearch extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-
+			if(catebakup)
+			{
+				catebakup=false;
+			}
 			int check = 0;
 			String name = "";
 			findint find2 = new findint();
@@ -279,9 +284,15 @@ public class FoodSearch extends JFrame {
 			if (e.getSource() == btnNewButton) {
 				list.removeAll();
 				DefaultListModel model = new DefaultListModel();
+				
+				if(catebakup)
+				{
+					findarray=findarray2;
+				}
 
 				findint find2 = new findint();
-
+				findarray2=findarray;
+				
 				findarray = find2.findPerCategory(food, textField.getText(), 5, findarray);
 				if (orderingFood.isSelected()) {
 					for (int i = 0; i < findarray.length; i++) {
@@ -297,10 +308,11 @@ public class FoodSearch extends JFrame {
 				}
 				if (check == 0) {
 					JOptionPane.showMessageDialog(null, "이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
+					findarray=findarray2;
 				} else {
 					list.setModel(model);
 				}
-
+				catebakup=true;
 			}
 		}
 	}

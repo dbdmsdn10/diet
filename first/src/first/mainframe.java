@@ -135,7 +135,7 @@ public class mainframe extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JButton food = new JButton("먹인것 조회및 입력하기");
+		JButton food = new JButton("먹은것 조회및 입력하기");
 		food.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				days b = new days();
@@ -223,12 +223,13 @@ public class mainframe extends JFrame {
 		}
 		calro += gender2;
 		double nowcar = Math
-				.round((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal - Pastcar) * 1000 / 1000.0);
-		double original = Math.round((calro * Double.parseDouble(personinfo[4]) * 1000 / 1000.0));
+				.round((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal - Pastcar) * 100) / 100.0;
+		double original = Math.round((calro * Double.parseDouble(personinfo[4]) * 100) / 100.0);
 		
 		showcar.setText(Double.toString(nowcar));
 		Date date = new Date();
 		date.save(nowcar, showcar, original);
+		
 	}
 
 }
