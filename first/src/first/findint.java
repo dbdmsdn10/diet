@@ -21,27 +21,43 @@ public class findint {
 		if (name.equals("냉동, 과자, 기타등등")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("가공식품")) {
-					c.add(i);
+					try {
+						Double.parseDouble(a[i][14]);
+						c.add(i);
+					} catch (Exception e) {
+					}
 				}
 			}
 		} else if (name.equals("요리 재료, 과일, 생것")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("농축산물") || a[i][3].equals("수산물")) {
-					c.add(i);
+					try {
+						Double.parseDouble(a[i][14]);
+						c.add(i);
+					} catch (Exception e) {
+					}
 				}
 			}
 
 		} else if (name.equals("식당, 가게 상품등")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("외식") && a[i][4].equals("상용제품")) {
-					c.add(i);
+					try {
+						Double.parseDouble(a[i][14]);
+						c.add(i);
+					} catch (Exception e) {
+					}
 				}
 			}
 
 		} else if (name.equals("일반적 요리, 음식")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("외식") && a[i][4].equals("품목대표")) {
-					c.add(i);
+					try {
+						Double.parseDouble(a[i][14]);
+						c.add(i);
+					} catch (Exception e) {
+					}
 				}
 			}
 
@@ -64,7 +80,7 @@ public class findint {
 
 	public Integer[] findPerCategory(String[][] a, String b, int d, Integer[] Array) {
 		ArrayList<Integer> c = new ArrayList<Integer>();
-		
+
 		for (int i = 0; i < Array.length; i++) {
 			if (a[Array[i]][d].contains(b)) {
 				c.add(Array[i]);

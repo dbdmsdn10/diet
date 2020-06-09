@@ -111,7 +111,7 @@ public class FoodSearch extends JFrame {
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -275,7 +275,6 @@ public class FoodSearch extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Integer[] find;
 			int check = 0;
 			if (e.getSource() == btnNewButton) {
 				list.removeAll();
@@ -283,16 +282,16 @@ public class FoodSearch extends JFrame {
 
 				findint find2 = new findint();
 
-				find = find2.findPerCategory(food, textField.getText(), 5, findarray);
+				findarray = find2.findPerCategory(food, textField.getText(), 5, findarray);
 				if (orderingFood.isSelected()) {
-					for (int i = 0; i < find.length; i++) {
-						model.addElement(
-								food[find[i]][5] + "    " + food[find[i]][7] + "    " + food[find[i]][10] + "g");
+					for (int i = 0; i < findarray.length; i++) {
+						model.addElement(food[findarray[i]][5] + "    " + food[findarray[i]][7] + "    "
+								+ food[findarray[i]][10] + "g");
 						check++;
 					}
 				} else {
-					for (int i = 0; i < find.length; i++) {
-						model.addElement(food[find[i]][5] + "    " + food[find[i]][10] + "g");
+					for (int i = 0; i < findarray.length; i++) {
+						model.addElement(food[findarray[i]][5] + "    " + food[findarray[i]][10] + "g");
 						check++;
 					}
 				}
@@ -381,7 +380,7 @@ public class FoodSearch extends JFrame {
 						make.flush();
 						make.close();
 					} catch (IOException q) {// 파일 읽기 오류
-						
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

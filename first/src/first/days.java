@@ -60,14 +60,15 @@ public class days extends JFrame {
 	}
 
 	public void one() {
-		File cal = new File("food calory.txt");
+		File cal = new File("foodcalory.txt");
 		String line2 = null;
 		String[] aa = new String[230];
 		int ii = 0;
 		try {
+			
 			BufferedReader reader = new BufferedReader(new FileReader(cal));
 			while ((line2 = reader.readLine()) != null) {
-				aa = line2.split("\t");
+				aa = line2.split("	");
 				Food[ii] = aa;
 				ii++;
 			}

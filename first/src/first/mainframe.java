@@ -30,14 +30,15 @@ public class mainframe extends JFrame {
 	static String[] personinfo;
 	private JButton editperson;
 	public static mainframe frame;
-	private JTextField showcar;
-	double UsedCalori = 0, EatKcal = 0;
+	public JTextField showcar;
+	double UsedCalori = 0, EatKcal = 0, Pastcar = 0;
 	Font font = new Font("돋움", 1, 40);
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+
 		File met = new File("person.txt");
 		boolean w = true;
 		try {
@@ -69,6 +70,7 @@ public class mainframe extends JFrame {
 		File met = new File("person.txt");
 		File used = new File("usedcalori.txt");
 		File eatkcal = new File("totalkcal.txt");
+		File pastcar = new File("pastcar.txt");
 		try {
 			BufferedReader met3 = new BufferedReader(new FileReader(met));
 			String line;
@@ -77,6 +79,7 @@ public class mainframe extends JFrame {
 				personinfo = line.split("	");
 				mettablearray.add(personinfo);
 			}
+			met3.close();
 		} catch (IOException q) {// 파일 읽기 오류
 
 			personalfirst personin = new personalfirst();
@@ -91,8 +94,9 @@ public class mainframe extends JFrame {
 			while ((line = used2.readLine()) != null) {
 				UsedCalori = Double.parseDouble(line);
 			}
+			used2.close();
 		} catch (IOException q) {// 파일 읽기 오류
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,12 +107,26 @@ public class mainframe extends JFrame {
 			while ((line = used2.readLine()) != null) {
 				EatKcal = Double.parseDouble(line);
 			}
-		}catch (IOException q) {// 파일 읽기 오류
-			
-		}  catch (Exception e) {
+			used2.close();
+		} catch (IOException q) {// 파일 읽기 오류
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// -----------------
+		try {
+			BufferedReader past2 = new BufferedReader(new FileReader(pastcar));
+			String line;
+			while ((line = past2.readLine()) != null) {
+				Pastcar = Double.parseDouble(line);
+			}
+			past2.close();
+		} catch (IOException q) {// 파일 읽기 오류
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// ------------------
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 459, 241);
@@ -204,9 +222,13 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
+		double nowcar = Math
+				.round((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal - Pastcar) * 1000 / 1000.0);
+		double original = Math.round((calro * Double.parseDouble(personinfo[4]) * 1000 / 1000.0));
 		
-		showcar.setText(Double.toString(((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal) *100) / 100.0));
-
+		showcar.setText(Double.toString(nowcar));
+		Date date = new Date();
+		date.save(nowcar, showcar, original);
 	}
 
 }
