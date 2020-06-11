@@ -37,7 +37,8 @@ public class Exerciseframe extends JFrame {
 	private JTextField want;
 	double savecalcori = 0;
 	JButton 시작 = new JButton("시작");
-	boolean DoOr=false;
+	boolean DoOr = false;
+
 	/**
 	 * Launch the application.
 	 */
@@ -169,27 +170,27 @@ public class Exerciseframe extends JFrame {
 		JButton carculbutton = new JButton("계산하기");
 		carculbutton.setBounds(457, 98, 86, 23);
 		contentPane.add(carculbutton);
-		
+
 		JLabel lblNewLabel = new JLabel("운동강도");
 		lblNewLabel.setBounds(150, 45, 57, 15);
 		contentPane.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_1 = new JLabel("빼고싶은 칼로리");
 		lblNewLabel_1.setBounds(140, 101, 108, 15);
 		contentPane.add(lblNewLabel_1);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("StopWatch");
 		lblNewLabel_2.setBounds(140, 129, 97, 15);
 		contentPane.add(lblNewLabel_2);
-		
+
 		JLabel lblNewLabel_3 = new JLabel("소비칼로리");
 		lblNewLabel_3.setBounds(140, 193, 97, 15);
 		contentPane.add(lblNewLabel_3);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Kcal");
 		lblNewLabel_4.setBounds(358, 193, 57, 15);
 		contentPane.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Kcal");
 		lblNewLabel_5.setBounds(410, 102, 57, 15);
 		contentPane.add(lblNewLabel_5);
@@ -215,7 +216,7 @@ public class Exerciseframe extends JFrame {
 			list.removeAll();
 			// TODO Auto-generated method stub
 			findint a = new findint();
-			find = a.find(mettable, name.getText(),0,0);
+			find = a.find(mettable, name.getText(), 0, 0);
 			DefaultListModel model = new DefaultListModel();
 			for (int i = 0; i < find.length; i++) {
 				model.addElement(mettable[find[i]][0]);
@@ -304,91 +305,97 @@ public class Exerciseframe extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String a = want.getText();
-			boolean c = true;
+			if (used != 0) {
+				JOptionPane.showMessageDialog(null, "아직 운동중입니다");
+			} else {
+				String a = want.getText();
+				boolean c = true;
 
-			if (want.getText().equals("") & c) {
-				JOptionPane.showMessageDialog(null, "내용을 입력해주세요");
-				c = false;
-			}
-			double b = 0;
-			if (c) {
-				try {
-					b = Double.parseDouble(a);
-				} catch (Exception ee) {
-					JOptionPane.showMessageDialog(null, "'숫자'를 입력해주세요");
+				if (want.getText().equals("") & c) {
+					JOptionPane.showMessageDialog(null, "내용을 입력해주세요");
 					c = false;
 				}
-			}
-			String met = metvalue.getText();
-			if (met.equals("") & c) {
-				JOptionPane.showMessageDialog(null, "'운동'을 선택해주세요");
-				c = false;
-			}
-			if (c) {
-				double met2 = Double.parseDouble(a);
-				double hcar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) * 60
-						/ 200;
-				double mincar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) / 200;
-				double seccar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) / 12000;
-				double mscar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
-						/ 1200000;
-				int hour = 0, min = 0, sec = 0, ms = 0;
-				if (met2 > hcar) {
-					boolean htime = true;
-					int l = 1;
-					while (htime) {
-						l++;
-						if (met2 < mincar * l) {
-							hour = l - 1;
-							met2 = met2 - hcar * hour;
-							htime = false;
-						}
+				double b = 0;
+				if (c) {
+					try {
+						b = Double.parseDouble(a);
+					} catch (Exception ee) {
+						JOptionPane.showMessageDialog(null, "'숫자'를 입력해주세요");
+						c = false;
 					}
 				}
-				if (met2 > mincar) {
-					boolean mintime = true;
-					int l = 1;
-					while (mintime) {
-						l++;
-						if (met2 < mincar * l) {
-							min = l - 1;
-							met2 = met2 - mincar * min;
-							mintime = false;
+				String met = metvalue.getText();
+				if (met.equals("") & c) {
+					JOptionPane.showMessageDialog(null, "'운동'을 선택해주세요");
+					c = false;
+				}
+				if (c) {
+					double met2 = Double.parseDouble(a);
+					double hcar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) * 60
+							/ 200;
+					double mincar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+							/ 200;
+					double seccar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+							/ 12000;
+					double mscar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+							/ 1200000;
+					int hour = 0, min = 0, sec = 0, ms = 0;
+					if (met2 > hcar) {
+						boolean htime = true;
+						int l = 1;
+						while (htime) {
+							l++;
+							if (met2 < mincar * l) {
+								hour = l - 1;
+								met2 = met2 - hcar * hour;
+								htime = false;
+							}
 						}
 					}
-				}
-				if (met2 > seccar) {
-					boolean sectime = true;
-					int l = 1;
-					while (sectime) {
-						l++;
-						if (met2 < seccar * l) {
-							sectime = false;
-							sec = l - 1;
-							met2 = met2 - seccar * sec;
+					if (met2 > mincar) {
+						boolean mintime = true;
+						int l = 1;
+						while (mintime) {
+							l++;
+							if (met2 < mincar * l) {
+								min = l - 1;
+								met2 = met2 - mincar * min;
+								mintime = false;
+							}
 						}
 					}
-				}
-				if (met2 > mscar) {
-					boolean mstime = true;
-					int l = 1;
-					while (mstime) {
-						l++;
-						if (met2 < mscar * l) {
-							mstime = false;
-							ms = l - 1;
-							met2 = met2 - mscar * ms;
+					if (met2 > seccar) {
+						boolean sectime = true;
+						int l = 1;
+						while (sectime) {
+							l++;
+							if (met2 < seccar * l) {
+								sectime = false;
+								sec = l - 1;
+								met2 = met2 - seccar * sec;
+							}
 						}
 					}
+					if (met2 > mscar) {
+						boolean mstime = true;
+						int l = 1;
+						while (mstime) {
+							l++;
+							if (met2 < mscar * l) {
+								mstime = false;
+								ms = l - 1;
+								met2 = met2 - mscar * ms;
+							}
+						}
+					}
+					time3 = hour * 1000 * 60 * 60;
+					time3 += 1000 * 60 * min;
+					time3 += sec * 1000 + ms * 10;
+					DoOr = true;
+					timetext.setText(toTime(time3));
 				}
-				time3=hour*1000 * 60 * 60;
-				time3 += 1000 * 60 * min;
-				time3 += sec * 1000 + ms * 10;
-				DoOr=true;
-				timetext.setText(toTime(time3));
-			}
 
+			}
 		}
 
 	}
@@ -401,13 +408,12 @@ public class Exerciseframe extends JFrame {
 					list.setEnabled(false);
 					list.setFocusable(false);
 					sleep(10);
-					if(DoOr) {
-						time=time3-(System.currentTimeMillis() - preTime);
-						
-						}
-						else {
-							time = System.currentTimeMillis() - preTime;
-						}
+					if (DoOr) {
+						time = time3 - (System.currentTimeMillis() - preTime);
+
+					} else {
+						time = System.currentTimeMillis() - preTime;
+					}
 					timetext.setText(toTime(time));
 					time2 = System.currentTimeMillis() - pauseTime;
 					double mincar = (Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
@@ -419,10 +425,9 @@ public class Exerciseframe extends JFrame {
 					double kkk = Math.round((mincar + seccar + msseccar) * 100) / 100.0;
 
 					kcal.setText(Double.toString(Math.round((kkk + used) * 100) / 100.0));
-					if(time<0)
-					{
+					if (time < 0) {
 						JOptionPane.showMessageDialog(null, "시간종료");
-						DoOr=false;
+						DoOr = false;
 						interrupt();
 					}
 				}
@@ -432,7 +437,7 @@ public class Exerciseframe extends JFrame {
 	}
 
 	public String toTime(long time) {
-		int h = (int) (time / 1000.0/60.0/60.0);
+		int h = (int) (time / 1000.0 / 60.0 / 60.0);
 		int m = (int) (time / 1000.0 / 60.0);
 		int s = (int) (time % (1000.0 * 60) / 1000.0);
 		int ms = (int) (time % 1000 / 10.0);
