@@ -42,18 +42,7 @@ public class Exerciseframe extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Exerciseframe frame = new Exerciseframe();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	public void get(String[] personinfo, double savecalcori) {
 		this.personinfo = personinfo;
@@ -65,7 +54,7 @@ public class Exerciseframe extends JFrame {
 	 */
 	public Exerciseframe() {
 
-		File met = new File("mettable.txt");
+		File met = new File("data\\mettable.txt");
 		try {
 			BufferedReader met3 = new BufferedReader(new FileReader(met));
 			String line;

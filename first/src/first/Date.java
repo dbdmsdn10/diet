@@ -12,9 +12,8 @@ import java.util.Calendar;
 import javax.swing.JTextField;
 
 public class Date {
-	
 
-	public static void save(double nowcar,JTextField showcar,double original) {
+	public static void save(double nowcar, JTextField showcar, double original) {
 		String date = "past.txt";
 		SimpleDateFormat turn = new SimpleDateFormat("yyyy.MM.dd");
 		Calendar time = Calendar.getInstance();
@@ -32,7 +31,7 @@ public class Date {
 			}
 			dateb.close();
 			if (what) {
-			} else {//날짜가 다르다면
+			} else {// 날짜가 다르다면
 				try {
 					BufferedWriter make = new BufferedWriter(new FileWriter(date, false));
 					make.write(time2);
@@ -41,37 +40,35 @@ public class Date {
 				} catch (Exception e) {
 					System.out.println("생성문제");
 				}
-				
-				String list[] = { "usedcalori.txt", "snack.txt", "lunch.txt", "dinner.txt", "breakfast.txt","pastcar.txt","totalkcal.txt" };
-				for (int i = 0; i < list.length; i++) {//파일들 삭제
+
+				String list[] = { "usedcalori.txt", "snack.txt", "lunch.txt", "dinner.txt", "breakfast.txt",
+						"pastcar.txt", "totalkcal.txt" };
+				for (int i = 0; i < list.length; i++) {// 파일들 삭제
 					File file = new File(list[i]);
-					
+
 					if (file.exists()) {
 						if (file.delete()) {
 						} else {
 							System.out.println(list[i]);
 						}
+					} else {
+
 					}
-					else {
-						
-					}
-					
+
 				}
-				
-				
-				if(nowcar<0) {
+
+				if (nowcar < 0) {
 					try {
 						BufferedWriter make = new BufferedWriter(new FileWriter(list[5], false));
-						double nowcar2=-nowcar;
+						double nowcar2 = -nowcar;
 						make.write(Double.toString(nowcar2));
 						make.flush();
 						make.close();
-						showcar.setText(Double.toString(original-nowcar2));
+						showcar.setText(Double.toString(original - nowcar2));
 					} catch (Exception e) {
 						System.out.println("showcar입력오류");
 					}
-				}
-				else {
+				} else {
 					showcar.setText(Double.toString(original));
 				}
 			}

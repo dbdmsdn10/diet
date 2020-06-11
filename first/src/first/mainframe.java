@@ -185,7 +185,7 @@ public class mainframe extends JFrame {
 			}
 		});
 
-		work.setBounds(245, 118, 155, 23);
+		work.setBounds(226, 118, 174, 23);
 		contentPane.add(work);
 
 		editperson = new JButton("개인정보 수정");
@@ -204,7 +204,7 @@ public class mainframe extends JFrame {
 				dispose();
 			}
 		});
-		editperson.setBounds(265, 179, 123, 23);
+		editperson.setBounds(12, 168, 174, 23);
 		contentPane.add(editperson);
 
 		showcar = new JTextField();
@@ -230,6 +230,17 @@ public class mainframe extends JFrame {
 		Date date = new Date();
 		date.save(nowcar, showcar, original);
 		
-	}
+		JButton Exit = new JButton("종료하기");
+		Exit.setBounds(226, 168, 174, 23);
+		contentPane.add(Exit);
+		Exit.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+			
+		});
+	}
 }

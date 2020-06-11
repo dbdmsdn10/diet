@@ -1,7 +1,5 @@
 package first;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -42,30 +39,13 @@ public class days extends JFrame {
 	static days frame = new days();
 	boolean st = true;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	public void one() {
-		File cal = new File("foodcalory.txt");
+		File cal = new File("data\\foodcalory.txt");
 		String line2 = null;
 		String[] aa = new String[230];
 		int ii = 0;
 		try {
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(cal));
 			while ((line2 = reader.readLine()) != null) {
 				aa = line2.split("	");
@@ -246,7 +226,6 @@ public class days extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			String sendname = "";
 			if (e.getSource() == morningb) {
 				name = "breakfast.txt";
 			} else if (e.getSource() == lunchb) {

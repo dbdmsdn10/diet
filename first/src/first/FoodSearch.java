@@ -61,20 +61,7 @@ public class FoodSearch extends JFrame {
 	String name = "";
 	boolean catebakup=false;
 	Integer[] findarray2;
-	
-	public static void main(String[] args) {
 
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FoodSearch frame = new FoodSearch();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public void GetFood(String[][] Food, String what) {
 		this.food = Food;
