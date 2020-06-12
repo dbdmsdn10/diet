@@ -46,9 +46,9 @@ public class FoodSearch extends JFrame {
 	private JScrollPane scrollPane;
 	JButton btnNewButton = new JButton("\uAC80\uC0C9");
 	JList list = new JList();
-	JRadioButton Frozen = new JRadioButton("냉동, 과자, 기타등등");
+	JRadioButton Frozen = new JRadioButton("냉동, 과자, 등 가공식품");
 	JRadioButton ingredient = new JRadioButton("요리 재료, 과일, 생것");
-	JRadioButton orderingFood = new JRadioButton("식당, 가게 상품등");
+	JRadioButton orderingFood = new JRadioButton("외식업, 요식업");
 	JRadioButton cook = new JRadioButton("일반적 요리, 음식");
 	JRadioButton back = new JRadioButton("초기화");
 	JList EatThing = new JList();
@@ -241,7 +241,7 @@ public class FoodSearch extends JFrame {
 			}
 
 			findarray = find2.findPerCategory2(food, 5, name);
-			if (e.getSource() == orderingFood) {
+			if (e.getSource() == orderingFood||e.getSource() ==Frozen) {
 				for (int i = 0; i < findarray.length; i++) {
 					model.addElement(food[findarray[i]][5] + "   " + food[findarray[i]][7] + "    "
 							+ food[findarray[i]][10] + "g");
@@ -281,7 +281,7 @@ public class FoodSearch extends JFrame {
 				findarray2=findarray;
 				
 				findarray = find2.findPerCategory(food, textField.getText(), 5, findarray);
-				if (orderingFood.isSelected()) {
+				if (orderingFood.isSelected()||Frozen.isSelected()) {
 					for (int i = 0; i < findarray.length; i++) {
 						model.addElement(food[findarray[i]][5] + "    " + food[findarray[i]][7] + "    "
 								+ food[findarray[i]][10] + "g");

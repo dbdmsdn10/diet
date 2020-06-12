@@ -61,10 +61,14 @@ public class Date {
 					try {
 						BufferedWriter make = new BufferedWriter(new FileWriter(list[5], false));
 						double nowcar2 = -nowcar;
-						make.write(Double.toString(nowcar2));
+						if(nowcar2>500)
+						{
+							nowcar2=500;
+						}
+						make.write(Double.toString(nowcar2)+" kcal");
 						make.flush();
 						make.close();
-						showcar.setText(Double.toString(original - nowcar2));
+						showcar.setText(Double.toString(original - nowcar2)+ " kcal");
 					} catch (Exception e) {
 						System.out.println("showcar입력오류");
 					}

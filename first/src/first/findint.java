@@ -18,7 +18,7 @@ public class findint {
 	public Integer[] findPerCategory2(String[][] a, int d, String name) {
 		ArrayList<Integer> c = new ArrayList<Integer>();
 		boolean what = true;
-		if (name.equals("냉동, 과자, 기타등등")) {
+		if (name.equals("냉동, 과자, 등 가공식품")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("가공식품")) {
 					try {
@@ -39,7 +39,7 @@ public class findint {
 				}
 			}
 
-		} else if (name.equals("식당, 가게 상품등")) {
+		} else if (name.equals("외식업, 요식업")) {
 			for (int i = 4; i < a.length; i++) {
 				if (a[i][3].equals("외식") && a[i][4].equals("상용제품")) {
 					try {

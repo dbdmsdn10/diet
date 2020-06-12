@@ -33,6 +33,7 @@ public class mainframe extends JFrame {
 	public JTextField showcar;
 	double UsedCalori = 0, EatKcal = 0, Pastcar = 0;
 	Font font = new Font("돋움", 1, 40);
+	double nowcar = 0;
 
 	/**
 	 * Launch the application.
@@ -180,6 +181,9 @@ public class mainframe extends JFrame {
 						kk.setVisible(true);
 					}
 				});
+				if (nowcar < 0) {
+					b.haveto(nowcar);
+				}
 				b.setVisible(true);
 				dispose();
 			}
@@ -222,14 +226,13 @@ public class mainframe extends JFrame {
 			gender2 = -150;
 		}
 		calro += gender2;
-		double nowcar = Math
-				.round((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal - Pastcar) * 100) / 100.0;
+		nowcar = Math.round((calro * Double.parseDouble(personinfo[4]) + UsedCalori - EatKcal - Pastcar) * 100) / 100.0;
 		double original = Math.round((calro * Double.parseDouble(personinfo[4]) * 100) / 100.0);
-		
-		showcar.setText(Double.toString(nowcar));
+
+		showcar.setText(Double.toString(nowcar) + " kcal");
 		Date date = new Date();
 		date.save(nowcar, showcar, original);
-		
+
 		JButton Exit = new JButton("종료하기");
 		Exit.setBounds(226, 168, 174, 23);
 		contentPane.add(Exit);
@@ -240,7 +243,7 @@ public class mainframe extends JFrame {
 				// TODO Auto-generated method stub
 				System.exit(0);
 			}
-			
+
 		});
 	}
 }

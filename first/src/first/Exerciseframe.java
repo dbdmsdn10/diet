@@ -38,7 +38,6 @@ public class Exerciseframe extends JFrame {
 	double savecalcori = 0;
 	JButton 시작 = new JButton("시작");
 	boolean DoOr = false;
-
 	/**
 	 * Launch the application.
 	 */
@@ -52,6 +51,9 @@ public class Exerciseframe extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	public void haveto(double nowcar) {
+		want.setText(Double.toString(-nowcar));
+	}
 	public Exerciseframe() {
 
 		File met = new File("data\\mettable.txt");
