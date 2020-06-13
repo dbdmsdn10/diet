@@ -65,7 +65,7 @@ public class Date {
 						{
 							nowcar2=500;
 						}
-						make.write(Double.toString(nowcar2)+" kcal");
+						make.write(Double.toString(nowcar2));
 						make.flush();
 						make.close();
 						showcar.setText(Double.toString(original - nowcar2)+ " kcal");

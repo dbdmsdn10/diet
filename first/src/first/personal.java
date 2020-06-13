@@ -22,9 +22,9 @@ import java.io.FileWriter;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
-public class personal extends JFrame {
+public class personal{
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField weight;
 	private JTextField height;
 	private JTextField age;
@@ -41,6 +41,7 @@ public class personal extends JFrame {
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_3;
+	mainframe frame;
 	/**
 	 * Launch the application.
 	 */
@@ -81,12 +82,12 @@ public class personal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public personal() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 230, 336);
+	public personal(mainframe frame) {
+		this.frame=frame;
 		contentPane = new JPanel();
+		contentPane.setBounds(100, 100, 230, 336);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		
 		contentPane.setLayout(null);
 		
 		weight = new JTextField();
@@ -124,9 +125,11 @@ public class personal extends JFrame {
 		cancle = new JButton("취소");
 		cancle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mainframe frame=new mainframe();
-				frame.setVisible(true);
-				dispose();
+				JPanel panel=frame.Panel();
+				frame.setContentPane(panel);
+				frame.setBounds(100, 100, panel.getWidth(), panel.getHeight());
+				frame.search(frame);
+				
 			}
 		});
 		cancle.setBounds(120, 264, 82, 23);
@@ -249,9 +252,10 @@ public class personal extends JFrame {
 					make.write(Double.toString(howmany));
 					make.flush();
 					make.close();
-					dispose();
-					mainframe frame=new mainframe();
-					frame.setVisible(true);
+					JPanel panel=frame.Panel();
+					frame.setContentPane(panel);
+					frame.setBounds(100, 100, panel.getWidth(), panel.getHeight());
+					frame.search(frame);
 					
 				} catch (Exception ee) {
 					System.out.println("오류");

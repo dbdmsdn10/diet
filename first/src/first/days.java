@@ -20,9 +20,9 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
-public class days extends JFrame {
+public class days{
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	JTextField morningt = new JTextField();
 	JTextField luncht = new JTextField();
 	JTextField dinnert = new JTextField();
@@ -36,9 +36,10 @@ public class days extends JFrame {
 	JButton dinnerb = new JButton("저녁");
 	JButton snackb = new JButton("간식 및 야식");
 	double morningkar = 0, lunchkar = 0, dinnerkar = 0, snackkar = 0;
-	static days frame = new days();
+	
 	boolean st = true;
 
+	mainframe frame;
 	public void one() {
 		File cal = new File("data\\foodcalory.txt");
 		String line2 = null;
@@ -71,12 +72,12 @@ public class days extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public days() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 522, 315);
+	public days(mainframe frame) {
+		this.frame=frame;
 		contentPane = new JPanel();
+		contentPane.setBounds(100, 100, 522, 315);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		
 		contentPane.setLayout(null);
 
 		morningb.setBounds(12, 186, 97, 23);
@@ -138,6 +139,25 @@ public class days extends JFrame {
 		snackb.addActionListener(open);
 		Back back = new Back();
 		Backb.addActionListener(back);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent k) {
+				try {
+					BufferedWriter make = new BufferedWriter(new FileWriter("totalkcal.txt", false));
+					make.write(Double.toString(total));
+					make.flush();
+					make.close();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+
+				}
+			}
+		});
 	}
 
 	public void carculate() {
@@ -165,7 +185,7 @@ public class days extends JFrame {
 		try {
 			BufferedReader lunch2 = new BufferedReader(new FileReader(lunch));
 			String line;
-
+			
 			while ((line = lunch2.readLine()) != null) {
 				String[] a = line.split(",");
 				for (int i = 0; i < a.length; i++) {
@@ -236,68 +256,12 @@ public class days extends JFrame {
 				name = "snack.txt";
 			}
 
-			FoodSearch b = new FoodSearch();
+			FoodSearch b = new FoodSearch(frame);
 			b.GetFood(Food, name);
-			b.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent k) {
-					try {
-						BufferedWriter make = new BufferedWriter(new FileWriter(name, false));
-						Integer[] eatthinglist = b.eatthing.toArray(new Integer[b.eatthing.size()]);
-
-						double kar = 0;
-						for (int i = 0; i < eatthinglist.length; i++) {
-							make.write(eatthinglist[i] + ",");
-							kar += Double.parseDouble(Food[eatthinglist[i]][14]);
-						}
-						make.flush();
-						make.close();
-						if (name.equals("breakfast.txt")) {
-							morningkar = kar;
-							morningt.setText(kar + "kcal");
-						} else if (name.equals("lunch.txt")) {
-							lunchkar = kar;
-							luncht.setText(kar + "kcal");
-						} else if (name.equals("dinner.txt")) {
-							dinnerkar = kar;
-							dinnert.setText(kar + "kcal");
-						} else if (name.equals("snack.txt")) {
-							snackkar = kar;
-							snackt.setText(kar + "kcal");
-						}
-						total = 0;
-						total = morningkar + lunchkar + dinnerkar + snackkar;
-						totalt.setText(total + " kcal");
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-
-					}
-					days kk = new days();
-					kk.two(Food);
-					kk.addWindowListener(new WindowAdapter() {
-						public void windowClosing(WindowEvent k) {
-							try {
-								BufferedWriter make = new BufferedWriter(new FileWriter("totalkcal.txt", false));
-								make.write(Double.toString(kk.total));
-								make.flush();
-								make.close();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							mainframe b = new mainframe();
-							b.setVisible(true);
-						}
-					});
-					kk.setVisible(true);
-				}
-			});
-			b.setVisible(true);
-			dispose();
+			JPanel a=b.contentPane;
+			a.setBounds(0, 0, a.getWidth(), a.getHeight());
+			frame.setContentPane(a);
+			frame.setBounds(100, 100, a.getWidth(), a.getHeight());
 		}
 	}
 
@@ -314,9 +278,11 @@ public class days extends JFrame {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			mainframe b = new mainframe();
-			b.setVisible(true);
-			dispose();
+			JPanel panel=frame.Panel();
+			frame.setContentPane(panel);
+			frame.setBounds(100, 100, panel.getWidth(), panel.getHeight());
+			frame.search(frame);
+			
 		}
 
 	}

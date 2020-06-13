@@ -38,9 +38,9 @@ import javax.swing.JTable;
 import javax.swing.JScrollBar;
 import javax.swing.JRadioButton;
 
-public class FoodSearch extends JFrame {
+public class FoodSearch{
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField textField;
 	String[][] food;
 	private JScrollPane scrollPane;
@@ -59,9 +59,9 @@ public class FoodSearch extends JFrame {
 	Integer[] eatthinglist = {};
 	ArrayList<Integer> eatthing = new ArrayList<Integer>();
 	String name = "";
-	boolean catebakup=false;
+	boolean catebakup = false;
 	Integer[] findarray2;
-
+	mainframe frame;
 
 	public void GetFood(String[][] Food, String what) {
 		this.food = Food;
@@ -107,16 +107,103 @@ public class FoodSearch extends JFrame {
 		}
 		JListSelect select = new JListSelect();
 		list.addListSelectionListener(select);
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent k) {
+				try {
+					BufferedWriter make = new BufferedWriter(new FileWriter(what, false));
+					Integer[] eatthinglist = eatthing.toArray(new Integer[eatthing.size()]);
+
+					double kar = 0;
+					for (int i = 0; i < eatthinglist.length; i++) {
+						make.write(eatthinglist[i] + ",");
+						kar += Double.parseDouble(food[eatthinglist[i]][14]);
+					}
+					make.flush();
+					make.close();
+
+				} catch (IOException q) {// 파일 읽기 오류
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				double total = 0;
+				File breakfast = new File("breakfast.txt");
+				try {
+					BufferedReader breakfast2 = new BufferedReader(new FileReader(breakfast));
+					String line;
+					while ((line = breakfast2.readLine()) != null) {
+						String[] a = line.split(",");
+						for (int i = 0; i < a.length; i++) {
+							total += Double.parseDouble(Food[Integer.parseInt(a[i])][14]);
+						}
+					}
+					breakfast2.close();
+				} catch (Exception e) {
+
+				}
+				File lunch = new File("lunch.txt");
+				try {
+					BufferedReader breakfast2 = new BufferedReader(new FileReader(lunch));
+					String line;
+					while ((line = breakfast2.readLine()) != null) {
+						String[] a = line.split(",");
+						for (int i = 0; i < a.length; i++) {
+							total += Double.parseDouble(Food[Integer.parseInt(a[i])][14]);
+						}
+					}
+					breakfast2.close();
+				} catch (Exception e) {
+
+				}
+				File dinner = new File("dinner.txt");
+				try {
+					BufferedReader breakfast2 = new BufferedReader(new FileReader(dinner));
+					String line;
+					while ((line = breakfast2.readLine()) != null) {
+						String[] a = line.split(",");
+						for (int i = 0; i < a.length; i++) {
+							total += Double.parseDouble(Food[Integer.parseInt(a[i])][14]);
+						}
+					}
+					breakfast2.close();
+				} catch (Exception e) {
+
+				}
+				File snack = new File("snack.txt");
+				try {
+					BufferedReader breakfast2 = new BufferedReader(new FileReader(snack));
+					String line;
+					while ((line = breakfast2.readLine()) != null) {
+						String[] a = line.split(",");
+						for (int i = 0; i < a.length; i++) {
+							total += Double.parseDouble(Food[Integer.parseInt(a[i])][14]);
+						}
+					}
+					breakfast2.close();
+				} catch (Exception e) {
+
+				}
+				try {
+					BufferedWriter make = new BufferedWriter(new FileWriter("totalkcal.txt", false));
+					make.write(Double.toString(total));
+					make.flush();
+					make.close();
+				} catch (IOException q) {// 파일 읽기 오류
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	public FoodSearch() {
-
-		setTitle("Health Life");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 922, 511);
+	public FoodSearch(mainframe frame) {
+		this.frame = frame;
+		
 		contentPane = new JPanel();
+		contentPane.setBounds(100, 100, 922, 511);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -220,9 +307,8 @@ public class FoodSearch extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if(catebakup)
-			{
-				catebakup=false;
+			if (catebakup) {
+				catebakup = false;
 			}
 			int check = 0;
 			String name = "";
@@ -241,7 +327,7 @@ public class FoodSearch extends JFrame {
 			}
 
 			findarray = find2.findPerCategory2(food, 5, name);
-			if (e.getSource() == orderingFood||e.getSource() ==Frozen) {
+			if (e.getSource() == orderingFood || e.getSource() == Frozen) {
 				for (int i = 0; i < findarray.length; i++) {
 					model.addElement(food[findarray[i]][5] + "   " + food[findarray[i]][7] + "    "
 							+ food[findarray[i]][10] + "g");
@@ -271,17 +357,16 @@ public class FoodSearch extends JFrame {
 			if (e.getSource() == btnNewButton) {
 				list.removeAll();
 				DefaultListModel model = new DefaultListModel();
-				
-				if(catebakup)
-				{
-					findarray=findarray2;
+
+				if (catebakup) {
+					findarray = findarray2;
 				}
 
 				findint find2 = new findint();
-				findarray2=findarray;
-				
+				findarray2 = findarray;
+
 				findarray = find2.findPerCategory(food, textField.getText(), 5, findarray);
-				if (orderingFood.isSelected()||Frozen.isSelected()) {
+				if (orderingFood.isSelected() || Frozen.isSelected()) {
 					for (int i = 0; i < findarray.length; i++) {
 						model.addElement(food[findarray[i]][5] + "    " + food[findarray[i]][7] + "    "
 								+ food[findarray[i]][10] + "g");
@@ -295,11 +380,11 @@ public class FoodSearch extends JFrame {
 				}
 				if (check == 0) {
 					JOptionPane.showMessageDialog(null, "이 식픔을 찾을 수 없음(다시 입력해 보십시오)");
-					findarray=findarray2;
+					findarray = findarray2;
 				} else {
 					list.setModel(model);
 				}
-				catebakup=true;
+				catebakup = true;
 			}
 		}
 	}
@@ -368,27 +453,11 @@ public class FoodSearch extends JFrame {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			days kk = new days();
+			days kk = new days(frame);
 			kk.two(food);
-			kk.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			kk.addWindowListener(new WindowAdapter() {
-				public void windowClosing(WindowEvent k) {
-					try {
-						BufferedWriter make = new BufferedWriter(new FileWriter("totalkcal.txt", false));
-						make.write(Double.toString(kk.total));
-						make.flush();
-						make.close();
-					} catch (IOException q) {// 파일 읽기 오류
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					mainframe b = new mainframe();
-					b.setVisible(true);
-				}
-			});
-			kk.setVisible(true);
-			dispose();
+			JPanel a=kk.contentPane;
+			frame.setContentPane(a);
+			frame.setBounds(100, 100, a.getWidth(), a.getHeight());
 
 		}
 	}

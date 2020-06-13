@@ -17,35 +17,45 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.Color;
 import javax.swing.JLabel;
 
-public class Exerciseframe extends JFrame {
+public class Exerciseframe {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField name;
 	String[][] mettable = null;
 	Integer[] find = null;
 	JList list = new JList();
+	JList list2 = new JList();
 	private JTextField metvalue;
 	long time = 0, preTime = 0, pauseTime = 0, time2 = 0, time3 = 0;
+	JTextField dayusdecal = new JTextField();
 	private JTextField timetext;
 	TimeThread timeTh = new TimeThread();
 	public JTextField kcal;
 	String[] personinfo;
 	double used = 0;
 	private JTextField want;
-	double savecalcori = 0;
+	double savecalcori = 0, nowcalcori = 0;
 	JButton 시작 = new JButton("시작");
 	boolean DoOr = false;
+	mainframe frame;
+	String whatdo[] = new String[3];;
+	long savelist[];
+	String Whatdo[][] = null;
+
 	/**
 	 * Launch the application.
 	 */
 
-
 	public void get(String[] personinfo, double savecalcori) {
 		this.personinfo = personinfo;
 		this.savecalcori = savecalcori;
+
+		dayusdecal.setText(Double.toString(savecalcori));
 	}
 
 	/**
@@ -54,8 +64,40 @@ public class Exerciseframe extends JFrame {
 	public void haveto(double nowcar) {
 		want.setText(Double.toString(-nowcar));
 	}
-	public Exerciseframe() {
 
+	public Exerciseframe(mainframe frame) {
+		this.frame = frame;
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent k) {
+				try {
+					timeTh.interrupt();
+					BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
+					make.write(Double.toString(Math.round(nowcalcori * 100) / 100.0));
+					make.flush();
+					make.close();
+				} catch (Exception ee) {
+				}
+				JPanel panel = frame.Panel();
+				frame.setContentPane(panel);
+				frame.setBounds(100, 100, panel.getWidth(), panel.getHeight());
+				frame.search(frame);
+				try {
+					savelist[Integer.parseInt(whatdo[0])] += time2;
+					BufferedWriter make = new BufferedWriter(new FileWriter("dayusedcalori.txt", false));
+					for (int i = 0; i < savelist.length; i++) {
+						if (savelist[i] == 0) {
+							continue;
+						} else {
+							make.write(i + "	" + savelist[i] + "\n");
+						}
+					}
+					make.flush();
+					make.close();
+				} catch (Exception ee) {
+				}
+			}
+		});
+		// -----------------------
 		File met = new File("data\\mettable.txt");
 		try {
 			BufferedReader met3 = new BufferedReader(new FileReader(met));
@@ -66,28 +108,133 @@ public class Exerciseframe extends JFrame {
 				mettablearray.add(a);
 			}
 			mettable = mettablearray.toArray(new String[mettablearray.size()][]);
+			savelist = new long[mettablearray.size()];
 		} catch (IOException q) {// 파일 읽기 오류
 			System.out.println(q.getMessage());
 		} catch (Exception e) {
 			System.out.println("오류");
 		}
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 582, 395);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		// ---------------------------
+		File met2 = new File("dayusedcalori.txt");
+		try {
+			BufferedReader met3 = new BufferedReader(new FileReader(met2));
+			String line;
+			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
+			while ((line = met3.readLine()) != null) {
+				String[] a = line.split("	");
+				savelist[(int) Long.parseLong(a[0])] = Long.parseLong(a[1]);
+			}
+			DefaultListModel model = new DefaultListModel();
 
+			for (int i = 0; i < savelist.length; i++) {
+				if (savelist[i] == 0) {
+					continue;
+				} else {
+					model.addElement(mettable[i][0] + "   " + toTime(savelist[i]));
+				}
+			}
+
+			list2.setModel(model);
+
+		} catch (IOException q) {// 파일 읽기 오류
+			System.out.println(q.getMessage());
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		// --------------------------
+		contentPane = new JPanel();
+		contentPane.setBounds(100, 100, 582, 395);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		contentPane.setLayout(null);
+		JButton carculbutton = new JButton("계산하기");
+		carculbutton.setBounds(468, 72, 86, 23);
+		JButton search = new JButton("검색");
+		search.setBounds(140, 9, 97, 23);
+		metvalue = new JTextField();
+		metvalue.setBounds(202, 42, 60, 21);
+		시작 = new JButton("시작");
+		시작.setBounds(140, 132, 97, 23);
+		JButton 중지 = new JButton("중지");
+		중지.setBounds(249, 135, 97, 23);
+		JButton 멈춤 = new JButton("멈춤");
+		멈춤.setBounds(358, 135, 97, 23);
+		kcal = new JTextField();
+		kcal.setBounds(230, 165, 116, 21);
+		JButton back = new JButton("돌아가기");
+		back.setBounds(457, 9, 97, 23);
+		want = new JTextField();
+		want.setBounds(249, 73, 148, 21);
+		JLabel lblNewLabel = new JLabel("운동강도");
+		lblNewLabel.setBounds(140, 45, 57, 15);
+		JLabel lblNewLabel_1 = new JLabel("빼고싶은 칼로리");
+		lblNewLabel_1.setBounds(140, 73, 108, 15);
+		JLabel lblNewLabel_2 = new JLabel("StopWatch");
+		lblNewLabel_2.setBounds(140, 107, 97, 15);
+		JLabel lblNewLabel_3 = new JLabel("소비칼로리");
+		lblNewLabel_3.setBounds(140, 165, 97, 15);
+		JLabel lblNewLabel_4 = new JLabel("Kcal");
+		lblNewLabel_4.setBounds(358, 168, 57, 15);
+		JLabel lblNewLabel_5 = new JLabel("Kcal");
+		lblNewLabel_5.setBounds(413, 76, 57, 15);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(12, 41, 116, 299);
 		name = new JTextField();
 		name.setBounds(12, 10, 116, 21);
+		timetext = new JTextField();
+		timetext.setEditable(false);
+		timetext.setBounds(249, 104, 148, 21);
 		contentPane.add(name);
+		contentPane.add(search);
+		contentPane.add(scrollPane);
+		contentPane.add(metvalue);
+		contentPane.add(timetext);
+		contentPane.add(시작);
+
+		contentPane.add(중지);
+
+		contentPane.add(멈춤);
+
+		contentPane.add(back);
+
+		contentPane.add(want);
+		want.setColumns(10);
+
+		contentPane.add(carculbutton);
+
+		contentPane.add(lblNewLabel);
+
+		contentPane.add(lblNewLabel_1);
+
+		contentPane.add(lblNewLabel_2);
+
+		contentPane.add(lblNewLabel_3);
+
+		contentPane.add(lblNewLabel_4);
+
+		contentPane.add(lblNewLabel_5);
+		contentPane.add(kcal);
+
+		dayusdecal.setBounds(413, 42, 116, 21);
+		contentPane.add(dayusdecal);
+		dayusdecal.setColumns(10);
+
+		JLabel lblNewLabel_6 = new JLabel("오늘 소비한 칼로리");
+		lblNewLabel_6.setBounds(296, 45, 119, 15);
+		contentPane.add(lblNewLabel_6);
+
+		JScrollPane todayusedlist = new JScrollPane();
+		todayusedlist.setBounds(140, 235, 414, 111);
+		contentPane.add(todayusedlist);
+
+		JLabel lblNewLabel_7 = new JLabel("오늘한 운동들");
+		lblNewLabel_7.setBounds(140, 210, 97, 15);
+		contentPane.add(lblNewLabel_7);
 		name.setColumns(10);
 
-		JButton search = new JButton("\uAC80\uC0C9");
 		search1 search2 = new search1();
 		search.addActionListener(search2);
-		search.setBounds(140, 9, 97, 23);
-		contentPane.add(search);
+
 		DefaultListModel model = new DefaultListModel();
 		find = new Integer[mettable.length];
 		for (int i = 0; i < mettable.length; i++) {
@@ -95,108 +242,70 @@ public class Exerciseframe extends JFrame {
 			find[i] = i;
 		}
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 41, 116, 299);
-		contentPane.add(scrollPane);
 		list.setEnabled(true);
 		scrollPane.setViewportView(list);
 		list.setModel(model);
+		double list2leng[] = new double[model.getSize()];
+		list2.setEnabled(true);
+		todayusedlist.setViewportView(list2);
+		// list2.setModel(model);
 
-		metvalue = new JTextField();
 		metvalue.setEditable(false);
 		metvalue.setBackground(Color.WHITE);
-		metvalue.setBounds(212, 42, 60, 21);
-		contentPane.add(metvalue);
+
 		metvalue.setColumns(10);
 
-		timetext = new JTextField();
-		timetext.setEditable(false);
-		timetext.setBounds(256, 126, 148, 21);
-		contentPane.add(timetext);
 		timetext.setColumns(10);
 
-		JButton 시작 = new JButton("시작");
-		시작.setBounds(140, 157, 97, 23);
-		contentPane.add(시작);
-
-		JButton 중지 = new JButton("중지");
-		중지.setBounds(249, 157, 97, 23);
-		contentPane.add(중지);
-
-		JButton 멈춤 = new JButton("멈춤");
-		멈춤.setBounds(358, 157, 97, 23);
-		contentPane.add(멈춤);
-
-		kcal = new JTextField();
 		kcal.setEditable(false);
 		kcal.setBackground(Color.WHITE);
-		kcal.setBounds(230, 190, 116, 21);
-		contentPane.add(kcal);
+
 		kcal.setColumns(10);
 
-		JButton back = new JButton("돌아가기");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					timeTh.interrupt();
 					BufferedWriter make = new BufferedWriter(new FileWriter("usedcalori.txt", false));
-					make.write(Double.toString(savecalcori + Double.parseDouble(kcal.getText())));
+					make.write(Double.toString(Math.round(nowcalcori * 100) / 100.0));
 					make.flush();
 					make.close();
 				} catch (Exception ee) {
 				}
-				mainframe frame = new mainframe();
-				frame.setVisible(true);
-				dispose();
+				JPanel panel = frame.Panel();
+				frame.setContentPane(panel);
+				frame.setBounds(100, 100, panel.getWidth(), panel.getHeight());
+				frame.search(frame);
+				try {
+					savelist[Integer.parseInt(whatdo[0])] += time2;
+					BufferedWriter make = new BufferedWriter(new FileWriter("dayusedcalori.txt", false));
+					for (int i = 0; i < savelist.length; i++) {
+						if (savelist[i] == 0) {
+							continue;
+						} else {
+							make.write(i + "	" + savelist[i] + "\n");
+						}
+					}
+					make.flush();
+					make.close();
+				} catch (Exception ee) {
+				}
+
 			}
 		});
-		back.setBounds(457, 317, 97, 23);
-		contentPane.add(back);
 
-		want = new JTextField();
-		want.setBounds(256, 99, 148, 21);
-		contentPane.add(want);
-		want.setColumns(10);
-
-		JButton carculbutton = new JButton("계산하기");
-		carculbutton.setBounds(457, 98, 86, 23);
-		contentPane.add(carculbutton);
-
-		JLabel lblNewLabel = new JLabel("운동강도");
-		lblNewLabel.setBounds(150, 45, 57, 15);
-		contentPane.add(lblNewLabel);
-
-		JLabel lblNewLabel_1 = new JLabel("빼고싶은 칼로리");
-		lblNewLabel_1.setBounds(140, 101, 108, 15);
-		contentPane.add(lblNewLabel_1);
-
-		JLabel lblNewLabel_2 = new JLabel("StopWatch");
-		lblNewLabel_2.setBounds(140, 129, 97, 15);
-		contentPane.add(lblNewLabel_2);
-
-		JLabel lblNewLabel_3 = new JLabel("소비칼로리");
-		lblNewLabel_3.setBounds(140, 193, 97, 15);
-		contentPane.add(lblNewLabel_3);
-
-		JLabel lblNewLabel_4 = new JLabel("Kcal");
-		lblNewLabel_4.setBounds(358, 193, 57, 15);
-		contentPane.add(lblNewLabel_4);
-
-		JLabel lblNewLabel_5 = new JLabel("Kcal");
-		lblNewLabel_5.setBounds(410, 102, 57, 15);
-		contentPane.add(lblNewLabel_5);
 		JListSelect select = new JListSelect();
 		list.addListSelectionListener(select);
 
 		stopwatchstart start = new stopwatchstart();
 		stopwatchpause pause = new stopwatchpause();
 		stopwatchstop stop = new stopwatchstop();
-		Backto backto = new Backto();
+
 		시작.addActionListener(start);
 
 		중지.addActionListener(pause);
 		멈춤.addActionListener(stop);
-		back.addActionListener(backto);
+
 		Carculate carcul = new Carculate();
 		carculbutton.addActionListener(carcul);
 
@@ -220,8 +329,10 @@ public class Exerciseframe extends JFrame {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
+
 			if (list.getSelectedIndex() != -1) {
 				metvalue.setText(mettable[find[list.getSelectedIndex()]][1]);
+				whatdo[0] = Integer.toString(find[list.getSelectedIndex()]);
 			}
 
 		}
@@ -263,8 +374,21 @@ public class Exerciseframe extends JFrame {
 				timeTh.interrupt();
 				list.setEnabled(true);
 				used = Double.parseDouble(kcal.getText());
-			}
+				whatdo[1] = toTime(time2);
 
+				savelist[Integer.parseInt(whatdo[0])] += time2;
+				DefaultListModel model = new DefaultListModel();
+
+				for (int i = 0; i < savelist.length; i++) {
+					if (savelist[i] == 0) {
+						continue;
+					} else {
+						model.addElement(mettable[i][0] + "   " + toTime(savelist[i]) + "\n");
+					}
+				}
+				list2.setModel(model);
+			}
+			
 		}
 
 	}
@@ -276,20 +400,27 @@ public class Exerciseframe extends JFrame {
 			if (timeTh.isAlive()) {
 				list.setEnabled(true);
 				timeTh.interrupt();
+				savecalcori = nowcalcori;
+				pauseTime = 0;
+				time = 0;
+				used = 0;
+				whatdo[1] = toTime(time2);
+
+				savelist[Integer.parseInt(whatdo[0])] += time2;
+				DefaultListModel model = new DefaultListModel();
+
+				for (int i = 0; i < savelist.length; i++) {
+					if (savelist[i] == 0) {
+						continue;
+					} else {
+						model.addElement(mettable[i][0] + "   " + toTime(savelist[i]));
+					}
+				}
+
+				list2.setModel(model);
 			}
-			pauseTime = 0;
-			time = 0;
-			used = 0;
-		}
-	}
-
-	class Backto implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
 
 		}
-
 	}
 
 	class Carculate implements ActionListener {
@@ -322,13 +453,13 @@ public class Exerciseframe extends JFrame {
 				}
 				if (c) {
 					double met2 = Double.parseDouble(a);
-					double hcar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0]) * 60
+					double hcar = Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0]) * 60
 							/ 200;
-					double mincar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double mincar = Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 200;
-					double seccar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double seccar = Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 12000;
-					double mscar = Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double mscar = Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 1200000;
 					int hour = 0, min = 0, sec = 0, ms = 0;
 					if (met2 > hcar) {
@@ -399,7 +530,7 @@ public class Exerciseframe extends JFrame {
 					list.setEnabled(false);
 					list.setFocusable(false);
 					sleep(10);
-					if (DoOr) {
+					if (DoOr) {// 스톱워치 역으로
 						time = time3 - (System.currentTimeMillis() - preTime);
 
 					} else {
@@ -407,15 +538,18 @@ public class Exerciseframe extends JFrame {
 					}
 					timetext.setText(toTime(time));
 					time2 = System.currentTimeMillis() - pauseTime;
-					double mincar = (Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double hcar = (Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0]) * 60
+							/ 200) * (int) (time2 / 1000.0 / 60.0 / 60);
+					double mincar = (Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 200) * (int) (time2 / 1000.0 / 60.0);
-					double seccar = (Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double seccar = (Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 12000) * (int) (time2 % (1000.0 * 60) / 1000.0);
-					double msseccar = (Double.parseDouble(metvalue.getText()) * 35 * Double.parseDouble(personinfo[0])
+					double msseccar = (Double.parseDouble(metvalue.getText()) * 3.5 * Double.parseDouble(personinfo[0])
 							/ 1200000) * (int) (time2 % 1000 / 10);
-					double kkk = Math.round((mincar + seccar + msseccar) * 100) / 100.0;
-
+					double kkk = Math.round((hcar + mincar + seccar + msseccar) * 100) / 100.0;
+					nowcalcori = (Math.round((savecalcori + kkk + used) * 100) / 100.0);
 					kcal.setText(Double.toString(Math.round((kkk + used) * 100) / 100.0));
+					dayusdecal.setText(Double.toString(nowcalcori));
 					if (time < 0) {
 						JOptionPane.showMessageDialog(null, "시간종료");
 						DoOr = false;
