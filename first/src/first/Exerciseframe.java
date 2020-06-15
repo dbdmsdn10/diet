@@ -51,11 +51,19 @@ public class Exerciseframe {
 	 * Launch the application.
 	 */
 
-	public void get(String[] personinfo, double savecalcori) {
+	public void get(String[] personinfo, double savecalcori,String[][] mettable) {
 		this.personinfo = personinfo;
 		this.savecalcori = savecalcori;
-
+		this.nowcalcori=savecalcori;
 		dayusdecal.setText(Double.toString(savecalcori));
+		this.savelist=new long[mettable.length];
+		DefaultListModel model = new DefaultListModel();
+		find = new Integer[mettable.length];
+		for (int i = 0; i < mettable.length; i++) {
+			model.addElement(mettable[i][0]);
+			find[i] = i;
+		}
+		list.setModel(model);
 	}
 
 	/**
@@ -98,22 +106,7 @@ public class Exerciseframe {
 			}
 		});
 		// -----------------------
-		File met = new File("data\\mettable.txt");
-		try {
-			BufferedReader met3 = new BufferedReader(new FileReader(met));
-			String line;
-			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
-			while ((line = met3.readLine()) != null) {
-				String[] a = line.split("	");
-				mettablearray.add(a);
-			}
-			mettable = mettablearray.toArray(new String[mettablearray.size()][]);
-			savelist = new long[mettablearray.size()];
-		} catch (IOException q) {// 파일 읽기 오류
-			System.out.println(q.getMessage());
-		} catch (Exception e) {
-			System.out.println("오류");
-		}
+		
 		// ---------------------------
 		File met2 = new File("dayusedcalori.txt");
 		try {
@@ -235,17 +228,11 @@ public class Exerciseframe {
 		search1 search2 = new search1();
 		search.addActionListener(search2);
 
-		DefaultListModel model = new DefaultListModel();
-		find = new Integer[mettable.length];
-		for (int i = 0; i < mettable.length; i++) {
-			model.addElement(mettable[i][0]);
-			find[i] = i;
-		}
-
+		
 		list.setEnabled(true);
 		scrollPane.setViewportView(list);
-		list.setModel(model);
-		double list2leng[] = new double[model.getSize()];
+		
+
 		list2.setEnabled(true);
 		todayusedlist.setViewportView(list2);
 		// list2.setModel(model);

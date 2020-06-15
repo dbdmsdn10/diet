@@ -30,7 +30,7 @@ public class days{
 	JTextField totalt = new JTextField();
 
 	double total = 0;
-	static String[][] Food = new String[29866][230];
+	static String[][] Food;
 	JButton morningb = new JButton("아침");
 	JButton lunchb = new JButton("점심");
 	JButton dinnerb = new JButton("저녁");
@@ -40,27 +40,9 @@ public class days{
 	boolean st = true;
 
 	mainframe frame;
-	public void one() {
-		File cal = new File("data\\foodcalory.txt");
-		String line2 = null;
-		String[] aa = new String[230];
-		int ii = 0;
-		try {
-
-			BufferedReader reader = new BufferedReader(new FileReader(cal));
-			while ((line2 = reader.readLine()) != null) {
-				aa = line2.split("	");
-				Food[ii] = aa;
-				ii++;
-			}
-
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void one(String[][] Food) {
+		this.Food=Food;
+		
 		carculate();
 	}
 
