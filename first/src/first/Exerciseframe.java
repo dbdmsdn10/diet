@@ -30,7 +30,7 @@ public class Exerciseframe {
 	Integer[] find = null;
 	JList list = new JList();
 	JList list2 = new JList();
-	private JTextField metvalue;
+	private JTextField metvalue = new JTextField();;
 	long time = 0, preTime = 0, pauseTime = 0, time2 = 0, time3 = 0;
 	JTextField dayusdecal = new JTextField();
 	private JTextField timetext;
@@ -51,12 +51,13 @@ public class Exerciseframe {
 	 * Launch the application.
 	 */
 
-	public void get(String[] personinfo, double savecalcori,String[][] mettable) {
+	public void get(String[] personinfo, double savecalcori, String[][] mettable) {
 		this.personinfo = personinfo;
 		this.savecalcori = savecalcori;
-		this.nowcalcori=savecalcori;
+		this.nowcalcori = savecalcori;
 		dayusdecal.setText(Double.toString(savecalcori));
-		this.savelist=new long[mettable.length];
+		this.mettable = mettable;
+		this.savelist = new long[mettable.length];
 		DefaultListModel model = new DefaultListModel();
 		find = new Integer[mettable.length];
 		for (int i = 0; i < mettable.length; i++) {
@@ -64,6 +65,34 @@ public class Exerciseframe {
 			find[i] = i;
 		}
 		list.setModel(model);
+		// ---------------------------
+		File met2 = new File("dayusedcalori.txt");
+		try {
+			BufferedReader met3 = new BufferedReader(new FileReader(met2));
+			String line;
+			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
+			while ((line = met3.readLine()) != null) {
+				String[] a = line.split("	");
+				savelist[(int) Long.parseLong(a[0])] = Long.parseLong(a[1]);
+			}
+			DefaultListModel model2 = new DefaultListModel();
+
+			for (int i = 0; i < savelist.length; i++) {
+				if (savelist[i] == 0) {
+					continue;
+				} else {
+					model2.addElement(mettable[i][0] + "   " + toTime(savelist[i]));
+				}
+			}
+
+			list2.setModel(model2);
+
+		} catch (IOException q) {// 파일 읽기 오류
+			System.out.println(q.getMessage());
+		} catch (Exception e) {
+			System.out.println("오류");
+		}
+		// --------------------------
 	}
 
 	/**
@@ -106,35 +135,7 @@ public class Exerciseframe {
 			}
 		});
 		// -----------------------
-		
-		// ---------------------------
-		File met2 = new File("dayusedcalori.txt");
-		try {
-			BufferedReader met3 = new BufferedReader(new FileReader(met2));
-			String line;
-			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
-			while ((line = met3.readLine()) != null) {
-				String[] a = line.split("	");
-				savelist[(int) Long.parseLong(a[0])] = Long.parseLong(a[1]);
-			}
-			DefaultListModel model = new DefaultListModel();
 
-			for (int i = 0; i < savelist.length; i++) {
-				if (savelist[i] == 0) {
-					continue;
-				} else {
-					model.addElement(mettable[i][0] + "   " + toTime(savelist[i]));
-				}
-			}
-
-			list2.setModel(model);
-
-		} catch (IOException q) {// 파일 읽기 오류
-			System.out.println(q.getMessage());
-		} catch (Exception e) {
-			System.out.println("오류");
-		}
-		// --------------------------
 		contentPane = new JPanel();
 		contentPane.setBounds(100, 100, 582, 395);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -144,7 +145,7 @@ public class Exerciseframe {
 		carculbutton.setBounds(468, 72, 86, 23);
 		JButton search = new JButton("검색");
 		search.setBounds(140, 9, 97, 23);
-		metvalue = new JTextField();
+
 		metvalue.setBounds(202, 42, 60, 21);
 		시작 = new JButton("시작");
 		시작.setBounds(140, 132, 97, 23);
@@ -228,10 +229,8 @@ public class Exerciseframe {
 		search1 search2 = new search1();
 		search.addActionListener(search2);
 
-		
 		list.setEnabled(true);
 		scrollPane.setViewportView(list);
-		
 
 		list2.setEnabled(true);
 		todayusedlist.setViewportView(list2);
@@ -375,7 +374,7 @@ public class Exerciseframe {
 				}
 				list2.setModel(model);
 			}
-			
+
 		}
 
 	}
@@ -387,10 +386,7 @@ public class Exerciseframe {
 			if (timeTh.isAlive()) {
 				list.setEnabled(true);
 				timeTh.interrupt();
-				savecalcori = nowcalcori;
-				pauseTime = 0;
-				time = 0;
-				used = 0;
+				
 				whatdo[1] = toTime(time2);
 
 				savelist[Integer.parseInt(whatdo[0])] += time2;
@@ -406,7 +402,10 @@ public class Exerciseframe {
 
 				list2.setModel(model);
 			}
-
+			savecalcori = nowcalcori;
+			pauseTime = 0;
+			time = 0;
+			used = 0;
 		}
 	}
 
@@ -453,48 +452,51 @@ public class Exerciseframe {
 						boolean htime = true;
 						int l = 1;
 						while (htime) {
-							l++;
-							if (met2 < mincar * l) {
+							if (met2 < hcar * l) {
 								hour = l - 1;
 								met2 = met2 - hcar * hour;
 								htime = false;
 							}
+							l++;
 						}
 					}
 					if (met2 > mincar) {
 						boolean mintime = true;
 						int l = 1;
 						while (mintime) {
-							l++;
+
 							if (met2 < mincar * l) {
 								min = l - 1;
 								met2 = met2 - mincar * min;
 								mintime = false;
 							}
+							l++;
 						}
 					}
 					if (met2 > seccar) {
 						boolean sectime = true;
 						int l = 1;
 						while (sectime) {
-							l++;
+
 							if (met2 < seccar * l) {
 								sectime = false;
 								sec = l - 1;
 								met2 = met2 - seccar * sec;
 							}
+							l++;
 						}
 					}
 					if (met2 > mscar) {
 						boolean mstime = true;
 						int l = 1;
 						while (mstime) {
-							l++;
+
 							if (met2 < mscar * l) {
 								mstime = false;
 								ms = l - 1;
 								met2 = met2 - mscar * ms;
 							}
+							l++;
 						}
 					}
 					time3 = hour * 1000 * 60 * 60;
@@ -550,7 +552,7 @@ public class Exerciseframe {
 
 	public String toTime(long time) {
 		int h = (int) (time / 1000.0 / 60.0 / 60.0);
-		int m = (int) (time / 1000.0 / 60.0);
+		int m = (int) (time / 1000.0 / 60.0 % 60);
 		int s = (int) (time % (1000.0 * 60) / 1000.0);
 		int ms = (int) (time % 1000 / 10.0);
 
