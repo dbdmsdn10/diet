@@ -32,6 +32,8 @@ public class mainframe extends JFrame {
 	JButton work = new JButton("운동 시작");
 	JButton editperson = new JButton("개인정보 수정");
 	JButton pastb = new JButton("과거 조회");
+	JButton statisticb = new JButton("통계");
+	
 	public JTextField showcar;
 
 	JTextField eatmount;
@@ -119,8 +121,7 @@ public class mainframe extends JFrame {
 		contentPane.add(food);
 		editperson.setBounds(12, 283, 174, 23);
 		contentPane.add(editperson);
-		Exit.setBounds(207, 283, 174, 23);
-		contentPane.add(Exit);
+		
 		work.setBounds(207, 250, 174, 23);
 		contentPane.add(work);
 		showcar = new JTextField();
@@ -176,6 +177,11 @@ public class mainframe extends JFrame {
 		
 		pastb.setBounds(12, 316, 174, 23);
 		contentPane.add(pastb);
+		//283
+		statisticb.setBounds(207, 283, 174, 23);
+		contentPane.add(statisticb);
+		Exit.setBounds(207, 316, 174, 23);
+		contentPane.add(Exit);
 		return contentPane;
 	}
 
@@ -306,6 +312,22 @@ public class mainframe extends JFrame {
 			});
 			
 			//------------------------------------------
+			frame.statisticb.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					frame.setTitle("과거 조회");
+					// TODO Auto-generated method stub
+					statistics b=new statistics();
+					b.get(Food, mettable);
+					b.carcul(b,frame);
+					
+					
+					JPanel a = b.contentPane;
+					frame.setBounds(100, 100, a.getWidth(), a.getHeight());
+					frame.setContentPane(a);
+
+				}
+			});
+			//------------------------------------------------
 
 			double calro = 10 * Double.parseDouble(personinfo[0]) + 6.25 * Double.parseDouble(personinfo[1])
 					- 5 * Integer.parseInt(personinfo[2]);

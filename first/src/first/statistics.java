@@ -35,16 +35,13 @@ import javax.swing.JMenu;
 import javax.swing.JToolBar;
 import java.awt.Choice;
 
-public class review {
+public class statistics {
 
 	public JPanel contentPane;
-	private JTextField totaleat;
-	private JTextField totalwork;
-	private JTextField penalty;
-	JList daylist, morninglist, lunchlist, dinnerlist, snacklist, worklist;
 	String daylist2[] = null;
 	static String daylist3[] = null;
 	String Food[][];
+	int EatFood[];
 	String mettable[][];
 	long[] savelist = null;
 	JButton back = new JButton("돌아가기");
@@ -56,6 +53,10 @@ public class review {
 	static Choice endyear = new Choice();
 	static Choice endmon = new Choice();
 	static Choice endday = new Choice();
+	private JTextField mosteat;
+	private JTextField mostwork;
+	private JTextField eatover;
+	int penalty = 0;
 
 	/**
 	 * Launch the application.
@@ -64,7 +65,7 @@ public class review {
 	/**
 	 * Create the frame.
 	 */
-	public review() {
+	public statistics() {
 		startyear.removeAll();
 		startmon.removeAll();
 		startday.removeAll();
@@ -73,161 +74,95 @@ public class review {
 		endday.removeAll();
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setBounds(100, 100, 670, 470);
+		contentPane.setBounds(100, 100, 444, 340);
 
 		contentPane.setLayout(null);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 33, 89, 388);
-		contentPane.add(scrollPane);
-
-		daylist = new JList();
-		scrollPane.setViewportView(daylist);
-
-		JLabel lblNewLabel = new JLabel("날짜");
-		lblNewLabel.setBounds(12, 10, 57, 15);
-		contentPane.add(lblNewLabel);
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(126, 33, 89, 158);
-		contentPane.add(scrollPane_1);
-
-		morninglist = new JList();
-		scrollPane_1.setViewportView(morninglist);
-
-		JLabel lblNewLabel_1 = new JLabel("아침");
-		lblNewLabel_1.setBounds(126, 10, 57, 15);
-		contentPane.add(lblNewLabel_1);
-
-		JLabel lblNewLabel_1_1 = new JLabel("점심");
-		lblNewLabel_1_1.setBounds(227, 11, 57, 15);
-		contentPane.add(lblNewLabel_1_1);
-
-		JScrollPane scrollPane_1_1 = new JScrollPane();
-		scrollPane_1_1.setBounds(227, 33, 89, 158);
-		contentPane.add(scrollPane_1_1);
-
-		lunchlist = new JList();
-		scrollPane_1_1.setViewportView(lunchlist);
-
-		JScrollPane scrollPane_1_1_1 = new JScrollPane();
-		scrollPane_1_1_1.setBounds(328, 33, 89, 158);
-		contentPane.add(scrollPane_1_1_1);
-
-		dinnerlist = new JList();
-		scrollPane_1_1_1.setViewportView(dinnerlist);
-
-		JLabel lblNewLabel_1_1_1 = new JLabel("저녁");
-		lblNewLabel_1_1_1.setBounds(328, 11, 57, 15);
-		contentPane.add(lblNewLabel_1_1_1);
-
-		JScrollPane scrollPane_1_1_2 = new JScrollPane();
-		scrollPane_1_1_2.setBounds(429, 32, 89, 159);
-		contentPane.add(scrollPane_1_1_2);
-
-		snacklist = new JList();
-		scrollPane_1_1_2.setViewportView(snacklist);
-
-		JLabel lblNewLabel_1_1_2 = new JLabel("간식");
-		lblNewLabel_1_1_2.setBounds(429, 10, 57, 15);
-		contentPane.add(lblNewLabel_1_1_2);
-
-		JLabel lblNewLabel_2 = new JLabel("운동한것");
-		lblNewLabel_2.setBounds(126, 218, 57, 15);
-		contentPane.add(lblNewLabel_2);
-
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(125, 243, 292, 167);
-		contentPane.add(scrollPane_2);
-
-		worklist = new JList();
-		scrollPane_2.setViewportView(worklist);
-
-		totaleat = new JTextField();
-		totaleat.setEditable(false);
-		totaleat.setBounds(429, 268, 116, 21);
-		contentPane.add(totaleat);
-		totaleat.setColumns(10);
-
-		JLabel lblNewLabel_3 = new JLabel("먹은 칼로리총량");
-		lblNewLabel_3.setBounds(429, 243, 89, 15);
-		contentPane.add(lblNewLabel_3);
-
-		JLabel lblNewLabel_3_1 = new JLabel("운동 총량");
-		lblNewLabel_3_1.setBounds(429, 299, 89, 15);
-		contentPane.add(lblNewLabel_3_1);
-
-		totalwork = new JTextField();
-		totalwork.setEditable(false);
-		totalwork.setColumns(10);
-		totalwork.setBounds(429, 324, 116, 21);
-		contentPane.add(totalwork);
-
-		JLabel lblNewLabel_3_1_1 = new JLabel("그날 패널티");
-		lblNewLabel_3_1_1.setBounds(429, 355, 89, 15);
-		contentPane.add(lblNewLabel_3_1_1);
-
-		penalty = new JTextField();
-		penalty.setEditable(false);
-		penalty.setColumns(10);
-		penalty.setBounds(429, 380, 116, 21);
-		contentPane.add(penalty);
-
-		back.setBounds(530, 10, 97, 23);
+		back.setBounds(330, 13, 97, 23);
 		contentPane.add(back);
 
 		JLabel lblNewLabel_4 = new JLabel("시작기간");
-		lblNewLabel_4.setBounds(561, 57, 57, 15);
+		lblNewLabel_4.setBounds(330, 46, 57, 15);
 		contentPane.add(lblNewLabel_4);
 
-		startyear.setBounds(561, 78, 63, 21);
+		startyear.setBounds(330, 67, 63, 21);
 		contentPane.add(startyear);
 
-		startmon.setBounds(561, 105, 63, 21);
+		startmon.setBounds(330, 94, 63, 21);
 		contentPane.add(startmon);
 
-		startday.setBounds(561, 132, 63, 21);
+		startday.setBounds(330, 121, 63, 21);
 
-		daycar.setBounds(561, 379, 97, 23);
+		daycar.setBounds(330, 263, 97, 23);
 		contentPane.add(daycar);
 		contentPane.add(startday);
 
-		endyear.setBounds(561, 218, 63, 21);
+		endyear.setBounds(330, 169, 63, 21);
 		contentPane.add(endyear);
 
-		endmon.setBounds(561, 241, 63, 21);
+		endmon.setBounds(330, 196, 63, 21);
 		contentPane.add(endmon);
 
-		endday.setBounds(561, 268, 63, 21);
+		endday.setBounds(330, 223, 63, 21);
 		contentPane.add(endday);
 
 		JLabel lblNewLabel_5 = new JLabel("종료기간");
-		lblNewLabel_5.setBounds(561, 197, 57, 15);
+		lblNewLabel_5.setBounds(330, 148, 57, 15);
 		contentPane.add(lblNewLabel_5);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("년도");
-		lblNewLabel_6.setBounds(632, 83, 26, 15);
+		lblNewLabel_6.setBounds(399, 73, 26, 15);
 		contentPane.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("월");
-		lblNewLabel_7.setBounds(630, 111, 28, 15);
+		lblNewLabel_7.setBounds(399, 94, 28, 15);
 		contentPane.add(lblNewLabel_7);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("일");
-		lblNewLabel_8.setBounds(635, 138, 23, 15);
+		lblNewLabel_8.setBounds(399, 121, 23, 15);
 		contentPane.add(lblNewLabel_8);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("년도");
-		lblNewLabel_9.setBounds(630, 218, 28, 15);
+		lblNewLabel_9.setBounds(399, 169, 28, 15);
 		contentPane.add(lblNewLabel_9);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("월");
-		lblNewLabel_10.setBounds(630, 245, 28, 15);
+		lblNewLabel_10.setBounds(399, 196, 28, 15);
 		contentPane.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("일");
-		lblNewLabel_11.setBounds(630, 274, 28, 15);
+		lblNewLabel_11.setBounds(399, 223, 28, 15);
 		contentPane.add(lblNewLabel_11);
+
+		JLabel qq = new JLabel("가장 자주 먹은 음식");
+		qq.setBounds(12, 67, 112, 15);
+		contentPane.add(qq);
+
+		JLabel qqqq = new JLabel("가장 많이한 운동");
+		qqqq.setBounds(12, 100, 112, 15);
+		contentPane.add(qqqq);
+
+		JLabel qqqqqqqq = new JLabel("과식한적 있던날");
+		qqqqqqqq.setBounds(12, 127, 112, 15);
+		contentPane.add(qqqqqqqq);
+
+		mosteat = new JTextField();
+		mosteat.setEditable(false);
+		mosteat.setBounds(136, 67, 165, 21);
+		contentPane.add(mosteat);
+		mosteat.setColumns(10);
+
+		mostwork = new JTextField();
+		mostwork.setEditable(false);
+		mostwork.setBounds(136, 94, 165, 21);
+		contentPane.add(mostwork);
+		mostwork.setColumns(10);
+
+		eatover = new JTextField();
+		eatover.setEditable(false);
+		eatover.setBounds(136, 121, 165, 21);
+		contentPane.add(eatover);
+		eatover.setColumns(10);
 
 	}
 
@@ -235,13 +170,11 @@ public class review {
 		this.Food = Food;
 		this.mettable = mettable;
 		savelist = new long[mettable.length];
+		this.EatFood = new int[Food.length];
 	}
 
-	public static void carcul(review frame, mainframe frame2) {
-		
-
+	public static void carcul(statistics frame, mainframe frame2) {
 		Calendar cal = Calendar.getInstance();
-
 		frame.back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel panel = frame2.Panel();
@@ -263,14 +196,16 @@ public class review {
 		}
 		frame.daylist2 = daylistmodel.toArray(new String[daylistmodel.size()]);
 
-		DefaultListModel model = new DefaultListModel();
 		int[] startset = new int[3];// 0년도 1월 2날짜
 		int[] nowset = new int[3];
 		boolean differyear = true;
 		boolean differday = true;
 		ArrayList<Integer> daylist = new ArrayList<Integer>();
 		ArrayList<Integer> monlist = new ArrayList<Integer>();
+		frame.savelist = new long[frame.savelist.length];
+		frame.EatFood = new int[frame.EatFood.length];
 		for (int i = 0; i < frame.daylist2.length; i++) {
+			OpenFile(frame.daylist2[i], frame);
 			String a[] = frame.daylist2[i].split("/");
 
 			if (i == 0) {
@@ -305,7 +240,7 @@ public class review {
 				differyear = false;
 			}
 			if (differyear && nowset[1] != Integer.parseInt(a[1])) {
-				
+
 				nowset[1] = Integer.parseInt(a[1]);
 				monlist.add(Integer.parseInt(a[1]));
 				if (differday) {
@@ -321,7 +256,7 @@ public class review {
 						frame.endday.add(q);
 					}
 					frame.endday.select(daylist2.length - 1);
-					
+
 				}
 				daylist.removeAll(daylist);
 				differday = false;
@@ -348,12 +283,12 @@ public class review {
 						q = "0" + Integer.toString(monlist2[j]);
 					}
 					frame.startmon.add(q);
-					if(differyear) {
+					if (differyear) {
 						frame.endmon.add(q);
 					}
 				}
-				if(differyear) {
-					frame.endmon.select(monlist2.length-1);
+				if (differyear) {
+					frame.endmon.select(monlist2.length - 1);
 				}
 				Collections.sort(daylist);
 				Integer[] daylist2 = daylist.toArray(new Integer[daylist.size()]);
@@ -365,17 +300,41 @@ public class review {
 					}
 
 					frame.startday.add(q);
-					
+
 				}
 			}
-			model.addElement(frame.daylist2[i]);
+
 		}
 
-		frame.daylist.setModel(model);
-		aaa select = new aaa();
-		select.get(frame);
-		frame.daylist.addListSelectionListener(select);
-		// ---------------------------------------------------
+		long savelistbig[] = new long[2];
+		int EatFoodbig[] = new int[2];
+		for (int i = 0; i < frame.savelist.length; i++) {
+			if (savelistbig[0] < frame.savelist[i]) {
+				savelistbig[0] = frame.savelist[i];
+				savelistbig[1] = i;
+			}
+		}
+		for (int i = 0; i < frame.EatFood.length; i++) {
+			if (EatFoodbig[0] < frame.EatFood[i]) {
+				EatFoodbig[0] = frame.EatFood[i];
+				EatFoodbig[1] = i;
+			}
+		}
+
+		if (EatFoodbig[0] != 0) {
+			frame.mosteat.setText(frame.Food[EatFoodbig[1]][5] + "  " + EatFoodbig[0] + "번");
+		}
+		if (savelistbig[0] != 0) {
+			frame.mostwork.setText(frame.mettable[(int) savelistbig[1]][0] + "  " + toTime(savelistbig[0]));
+		}
+		if(frame.penalty!=0)
+		{
+			frame.eatover.setText(frame.penalty+"번");
+		}
+		frame.savelist = new long[frame.savelist.length];
+		frame.EatFood = new int[frame.EatFood.length];
+		frame.penalty=0;
+		// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		frame.daycar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -395,13 +354,39 @@ public class review {
 
 				}
 				frame.daylist2 = daylistmodel.toArray(new String[daylistmodel.size()]);
-				DefaultListModel model2 = new DefaultListModel();
+
+				frame.savelist = new long[frame.savelist.length];
+				frame.EatFood = new int[frame.EatFood.length];
 
 				for (int i = 0; i < frame.daylist2.length; i++) {
-					model2.addElement(frame.daylist2[i]);
-				}
-				frame.daylist.setModel(model2);
+					OpenFile(frame.daylist2[i], frame);
 
+				}
+				long savelistbig[] = new long[2];
+				int EatFoodbig[] = new int[2];
+				for (int i = 0; i < frame.savelist.length; i++) {
+					if (savelistbig[0] < frame.savelist[i]) {
+						savelistbig[0] = frame.savelist[i];
+						savelistbig[1] = i;
+					}
+				}
+				for (int i = 0; i < frame.EatFood.length; i++) {
+					if (EatFoodbig[0] < frame.EatFood[i]) {
+						EatFoodbig[0] = frame.EatFood[i];
+						EatFoodbig[1] = i;
+					}
+				}
+				if (EatFoodbig[0] != 0) {
+					frame.mosteat.setText(frame.Food[EatFoodbig[1]][5] + "  " + EatFoodbig[0] + "번");
+				}
+				if (savelistbig[0] != 0) {
+					frame.mostwork.setText(frame.mettable[(int) savelistbig[1]][0] + "  " + toTime(savelistbig[0]));
+				}
+				if(frame.penalty!=0)
+				{
+					frame.eatover.setText(frame.penalty+"번");
+				}
+				frame.penalty=0;
 			}
 		});
 		frame.daylist3 = frame.daylist2.clone();
@@ -412,14 +397,15 @@ public class review {
 		endmon.addItemListener(choice);
 	}
 
-	public void OpenFile(String file, review frame) {
+	// ---------------------------------------
+//------------------------------------------------------------
+	public static void OpenFile(String file, statistics frame) {
 
 		try {
 			File file2 = new File("date/" + file + "/breakfast.txt");
 
 			BufferedReader dinner2 = new BufferedReader(new FileReader(file2));
 			String line;
-			DefaultListModel model = new DefaultListModel();
 
 			String a[] = null;
 			while ((line = dinner2.readLine()) != null) {
@@ -427,9 +413,9 @@ public class review {
 			}
 
 			for (int i = 0; i < a.length; i++) {
-				model.addElement(Food[Integer.parseInt(a[i])][5] + "  " + Food[Integer.parseInt(a[i])][14] + "kcal");
+				frame.EatFood[Integer.parseInt(a[i])]++;
 			}
-			frame.morninglist.setModel(model);
+
 		} catch (IOException q) {// 파일 읽기 오류
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -439,7 +425,6 @@ public class review {
 			File file2 = new File("date/" + file + "/lunch.txt");
 			BufferedReader dinner2 = new BufferedReader(new FileReader(file2));
 			String line;
-			DefaultListModel model = new DefaultListModel();
 
 			String a[] = null;
 			while ((line = dinner2.readLine()) != null) {
@@ -447,9 +432,9 @@ public class review {
 			}
 
 			for (int i = 0; i < a.length; i++) {
-				model.addElement(Food[Integer.parseInt(a[i])][5] + "  " + Food[Integer.parseInt(a[i])][14] + "kcal");
+				frame.EatFood[Integer.parseInt(a[i])]++;
 			}
-			frame.lunchlist.setModel(model);
+
 		} catch (IOException q) {// 파일 읽기 오류
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -458,7 +443,6 @@ public class review {
 			File file2 = new File("date/" + file + "/dinner.txt");
 			BufferedReader dinner2 = new BufferedReader(new FileReader(file2));
 			String line;
-			DefaultListModel model = new DefaultListModel();
 
 			String a[] = null;
 			while ((line = dinner2.readLine()) != null) {
@@ -466,9 +450,9 @@ public class review {
 			}
 
 			for (int i = 0; i < a.length; i++) {
-				model.addElement(Food[Integer.parseInt(a[i])][5] + "  " + Food[Integer.parseInt(a[i])][14] + "kcal");
+				frame.EatFood[Integer.parseInt(a[i])]++;
 			}
-			frame.dinnerlist.setModel(model);
+
 		} catch (IOException q) {// 파일 읽기 오류
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -477,7 +461,6 @@ public class review {
 			File file2 = new File("date/" + file + "/snack.txt");
 			BufferedReader dinner2 = new BufferedReader(new FileReader(file2));
 			String line;
-			DefaultListModel model = new DefaultListModel();
 
 			String a[] = null;
 			while ((line = dinner2.readLine()) != null) {
@@ -485,9 +468,9 @@ public class review {
 			}
 
 			for (int i = 0; i < a.length; i++) {
-				model.addElement(Food[Integer.parseInt(a[i])][5] + "  " + Food[Integer.parseInt(a[i])][14] + "kcal");
+				frame.EatFood[Integer.parseInt(a[i])]++;
 			}
-			frame.snacklist.setModel(model);
+
 		} catch (IOException q) {// 파일 읽기 오류
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -499,78 +482,26 @@ public class review {
 			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
 			while ((line = met3.readLine()) != null) {
 				String[] a = line.split("	");
-				savelist[(int) Long.parseLong(a[0])] = Long.parseLong(a[1]);
-			}
-			DefaultListModel model = new DefaultListModel();
-
-			for (int i = 0; i < savelist.length; i++) {
-				if (savelist[i] == 0) {
-					continue;
-				} else {
-					model.addElement(mettable[i][0] + "   " + toTime(savelist[i]));
-				}
+				frame.savelist[(int) Long.parseLong(a[0])] += Long.parseLong(a[1]);
 			}
 
-			frame.worklist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		// -----------------------------------------------
-		try {
-			File file2 = new File("date/" + file + "/totalkcal.txt");
-			BufferedReader met3 = new BufferedReader(new FileReader(file2));
-			String line;
-			String a = null;
-			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
-			while ((line = met3.readLine()) != null) {
-				a = line;
-			}
 
-			frame.totaleat.setText(a + " kcal");
-		} catch (IOException q) {// 파일 읽기 오류
-		} catch (Exception e) {
-			e.printStackTrace();
+		File file2 = new File("date/" + file + "/pastcar.txt");
+		if (file2.exists()) {
+			frame.penalty++;
 		}
-		try {
-			File file2 = new File("date/" + file + "/usedcalori.txt");
-			BufferedReader met3 = new BufferedReader(new FileReader(file2));
-			String line;
-			String a = null;
-			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
-			while ((line = met3.readLine()) != null) {
-				a = line;
-			}
-
-			frame.totalwork.setText(a + " kcal");
-		} catch (IOException q) {// 파일 읽기 오류
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		try {
-			File file2 = new File("date/" + file + "/pastcar.txt");
-			BufferedReader met3 = new BufferedReader(new FileReader(file2));
-			String line;
-			String a = null;
-			ArrayList<String[]> mettablearray = new ArrayList<String[]>();
-			while ((line = met3.readLine()) != null) {
-				a = line;
-			}
-
-			frame.penalty.setText(a + " kcal");
-		} catch (IOException q) {// 파일 읽기 오류
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 	// --------------------------------------------
 
 	// { "breakfast.txt", "dayusedcalori.txt", "dinner.txt", "lunch.txt",
 	// "snack.txt", "totalkcal.txt",
 	// "usedcalori.txt", "pastcar.txt" };
-	public String toTime(long time) {
+	public static String toTime(long time) {
 		int h = (int) (time / 1000.0 / 60.0 / 60.0);
 		int m = (int) (time / 1000.0 / 60.0);
 		int s = (int) (time % (1000.0 * 60) / 1000.0);
@@ -588,7 +519,7 @@ public class review {
 		long miner = end.getTime().getTime() - start.getTime().getTime();
 		int resul2 = (int) (miner / (24 * 60 * 60 * 1000));
 		for (int i = 0; i < resul2; i++) {
-			
+
 			end.add(Calendar.DAY_OF_MONTH, -1);
 
 			String time4 = year.format(end.getTime());
@@ -611,8 +542,8 @@ public class review {
 					}
 				} else {
 					Calendar time = Calendar.getInstance();
-					time.set(Integer.parseInt(year.format(end.getTime())), Integer.parseInt(mon.format(end.getTime()))-1,
-							1);
+					time.set(Integer.parseInt(year.format(end.getTime())),
+							Integer.parseInt(mon.format(end.getTime())) - 1, 1);
 					long miner2 = end.getTime().getTime() - time.getTime().getTime();
 					int result = (int) (miner2 / (24 * 60 * 60 * 1000));
 					end.add(Calendar.DAY_OF_MONTH, -result);
@@ -634,22 +565,3 @@ public class review {
 
 	}
 }
-
-class aaa implements ListSelectionListener {
-	review re;
-
-	public void get(review re) {
-		this.re = re;
-	}
-
-	@Override
-	public void valueChanged(ListSelectionEvent e) {
-		if (re.daylist.getSelectedIndex() != -1) {
-			
-			re.OpenFile(re.daylist2[re.daylist.getSelectedIndex()], re);
-		}
-
-	}
-}
-
-
