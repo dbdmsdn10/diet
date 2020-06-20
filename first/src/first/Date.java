@@ -93,7 +93,7 @@ public class Date {
 						make.close();
 						showcar.setText(Double.toString(original - nowcar2) + " kcal");
 					} catch (Exception e) {
-						System.out.println("showcar입력오류");
+						
 					}
 				} else {
 					showcar.setText(Double.toString(original));

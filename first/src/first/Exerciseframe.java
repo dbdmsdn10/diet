@@ -88,7 +88,7 @@ public class Exerciseframe {
 			list2.setModel(model2);
 
 		} catch (IOException q) {// 파일 읽기 오류
-			System.out.println(q.getMessage());
+			
 		} catch (Exception e) {
 			System.out.println("오류");
 		}
