@@ -53,6 +53,7 @@ public class mainframe extends JFrame {
 
 		frame = new mainframe();
 		search(frame);
+		
 		frame.setVisible(true);
 	}
 
@@ -60,10 +61,12 @@ public class mainframe extends JFrame {
 	 * Create the frame.
 	 */
 	public mainframe() {
+		super("메인 프레임");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 410, 320);
 		setContentPane(Panel());
+		
 		File cal = new File("data\\foodcalory.txt");
 		String line2 = null;
 		String[] aa = new String[230];
@@ -177,6 +180,7 @@ public class mainframe extends JFrame {
 	}
 
 	public static void search(mainframe frame) {
+		frame.setTitle("메인 프레임");
 		File met = new File("person.txt");
 		File used = new File("usedcalori.txt");
 		File eatkcal = new File("totalkcal.txt");
@@ -190,7 +194,7 @@ public class mainframe extends JFrame {
 			}
 			met3.close();
 		} catch (IOException q) {// 파일 읽기 오류
-
+			frame.setTitle("개인정보 입력");
 			personalfirst personin = new personalfirst(frame);
 
 			frame.setContentPane(personin.contentPane);
@@ -243,6 +247,7 @@ public class mainframe extends JFrame {
 
 			frame.food.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					frame.setTitle("오늘 식단 조회");
 					days b = new days(frame);
 					b.one(Food);
 					JPanel a = b.contentPane;
@@ -257,6 +262,7 @@ public class mainframe extends JFrame {
 
 			frame.work.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					frame.setTitle("오늘의 운동");
 					Exerciseframe b = new Exerciseframe(frame);
 					b.get(personinfo, frame.UsedCalori, mettable);
 
@@ -272,6 +278,7 @@ public class mainframe extends JFrame {
 
 			frame.editperson.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					frame.setTitle("개인정보 입력");
 					// TODO Auto-generated method stub
 					personal b = new personal(frame);
 					b.get(personinfo);
@@ -284,6 +291,7 @@ public class mainframe extends JFrame {
 			//--------------------------------------
 			frame.pastb.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					frame.setTitle("과거 조회");
 					// TODO Auto-generated method stub
 					review b=new review();
 					b.get(Food, mettable);

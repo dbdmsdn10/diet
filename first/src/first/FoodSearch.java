@@ -431,6 +431,7 @@ public class FoodSearch{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			frame.setTitle("오늘 식단 조회");
 			// TODO Auto-generated method stub
 			try {
 				BufferedWriter make = new BufferedWriter(new FileWriter(name, false));

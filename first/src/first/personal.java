@@ -174,7 +174,6 @@ public class personal{
 	class Confirm implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
 			boolean how = true;
 			if (weight.getText().equals("")&how) {
 				how = false;

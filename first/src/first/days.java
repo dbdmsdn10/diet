@@ -229,12 +229,16 @@ public class days{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if (e.getSource() == morningb) {
+				frame.setTitle("아침");
 				name = "breakfast.txt";
 			} else if (e.getSource() == lunchb) {
+				frame.setTitle("점심");
 				name = "lunch.txt";
 			} else if (e.getSource() == dinnerb) {
+				frame.setTitle("저녁");
 				name = "dinner.txt";
 			} else if (e.getSource() == snackb) {
+				frame.setTitle("간식 및 야식");
 				name = "snack.txt";
 			}
 
