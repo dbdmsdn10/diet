@@ -532,7 +532,7 @@ public class statistics {
 		for (int i = 0; i < resul2; i++) {
 
 			
-			System.out.println(turn.format(end.getTime()));
+			
 			String time4 = year.format(end.getTime());
 
 			File year3 = new File("date/" + time4);
