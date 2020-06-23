@@ -204,27 +204,27 @@ public class review {
 		JLabel lblNewLabel_5 = new JLabel("종료기간");
 		lblNewLabel_5.setBounds(561, 197, 57, 15);
 		contentPane.add(lblNewLabel_5);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("년도");
 		lblNewLabel_6.setBounds(632, 83, 26, 15);
 		contentPane.add(lblNewLabel_6);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("월");
 		lblNewLabel_7.setBounds(630, 111, 28, 15);
 		contentPane.add(lblNewLabel_7);
-		
+
 		JLabel lblNewLabel_8 = new JLabel("일");
 		lblNewLabel_8.setBounds(635, 138, 23, 15);
 		contentPane.add(lblNewLabel_8);
-		
+
 		JLabel lblNewLabel_9 = new JLabel("년도");
 		lblNewLabel_9.setBounds(630, 218, 28, 15);
 		contentPane.add(lblNewLabel_9);
-		
+
 		JLabel lblNewLabel_10 = new JLabel("월");
 		lblNewLabel_10.setBounds(630, 245, 28, 15);
 		contentPane.add(lblNewLabel_10);
-		
+
 		JLabel lblNewLabel_11 = new JLabel("일");
 		lblNewLabel_11.setBounds(630, 274, 28, 15);
 		contentPane.add(lblNewLabel_11);
@@ -238,7 +238,6 @@ public class review {
 	}
 
 	public static void carcul(review frame, mainframe frame2) {
-		
 
 		Calendar cal = Calendar.getInstance();
 
@@ -305,7 +304,7 @@ public class review {
 				differyear = false;
 			}
 			if (differyear && nowset[1] != Integer.parseInt(a[1])) {
-				
+
 				nowset[1] = Integer.parseInt(a[1]);
 				monlist.add(Integer.parseInt(a[1]));
 				if (differday) {
@@ -321,7 +320,7 @@ public class review {
 						frame.endday.add(q);
 					}
 					frame.endday.select(daylist2.length - 1);
-					
+
 				}
 				daylist.removeAll(daylist);
 				differday = false;
@@ -348,12 +347,12 @@ public class review {
 						q = "0" + Integer.toString(monlist2[j]);
 					}
 					frame.startmon.add(q);
-					if(differyear) {
+					if (differyear) {
 						frame.endmon.add(q);
 					}
 				}
-				if(differyear) {
-					frame.endmon.select(monlist2.length-1);
+				if (differyear) {
+					frame.endmon.select(monlist2.length - 1);
 				}
 				Collections.sort(daylist);
 				Integer[] daylist2 = daylist.toArray(new Integer[daylist.size()]);
@@ -365,7 +364,12 @@ public class review {
 					}
 
 					frame.startday.add(q);
-					
+					if (differday) {
+						frame.endday.add(q);
+					}
+				}
+				if (differday) {
+					frame.endday.select(daylist2.length - 1);
 				}
 			}
 			model.addElement(frame.daylist2[i]);
@@ -587,12 +591,9 @@ public class review {
 		ArrayList<String> daylistmodel = new ArrayList<String>();
 		long miner = end.getTime().getTime() - start.getTime().getTime();
 		int resul2 = (int) (miner / (24 * 60 * 60 * 1000));
-		for (int i = 0; i < resul2; i++) {
-			
-			end.add(Calendar.DAY_OF_MONTH, -1);
+		for (int i = 0; i < resul2 + 1; i++) {
 
 			String time4 = year.format(end.getTime());
-
 			File year3 = new File("date/" + time4);
 			// --------------------------
 			if (year3.isDirectory()) {// 연도 확인
@@ -601,18 +602,18 @@ public class review {
 				if (year4.isDirectory()) {// 달 확인
 					String time6 = day.format(end.getTime());
 					File year5 = new File("date/" + time4 + "/" + time5 + "/" + time6);
-
+					
 					if (year5.isDirectory()) {// 일확인
 						daylistmodel.add(year.format(end.getTime()) + "/" + mon.format(end.getTime()) + "/"
 								+ day.format(end.getTime()));
-
+						
 					} else {
 
 					}
 				} else {
 					Calendar time = Calendar.getInstance();
-					time.set(Integer.parseInt(year.format(end.getTime())), Integer.parseInt(mon.format(end.getTime()))-1,
-							1);
+					time.set(Integer.parseInt(year.format(end.getTime())),
+							Integer.parseInt(mon.format(end.getTime())) - 1, 1);
 					long miner2 = end.getTime().getTime() - time.getTime().getTime();
 					int result = (int) (miner2 / (24 * 60 * 60 * 1000));
 					end.add(Calendar.DAY_OF_MONTH, -result);
@@ -629,6 +630,7 @@ public class review {
 				i += result;
 
 			}
+			end.add(Calendar.DAY_OF_MONTH, -1);
 		}
 		return daylistmodel;
 
@@ -645,11 +647,9 @@ class aaa implements ListSelectionListener {
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		if (re.daylist.getSelectedIndex() != -1) {
-			
+
 			re.OpenFile(re.daylist2[re.daylist.getSelectedIndex()], re);
 		}
 
 	}
 }
-
-

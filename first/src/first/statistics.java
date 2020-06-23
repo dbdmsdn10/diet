@@ -290,6 +290,7 @@ public class statistics {
 				if (differyear) {
 					frame.endmon.select(monlist2.length - 1);
 				}
+				
 				Collections.sort(daylist);
 				Integer[] daylist2 = daylist.toArray(new Integer[daylist.size()]);
 				daylist.removeAll(daylist);
@@ -300,7 +301,12 @@ public class statistics {
 					}
 
 					frame.startday.add(q);
-
+					if (differday) {
+						frame.endday.add(q);
+					}
+				}
+				if (differday) {
+					frame.endday.select(daylist2.length - 1);
 				}
 			}
 
@@ -518,10 +524,15 @@ public class statistics {
 		ArrayList<String> daylistmodel = new ArrayList<String>();
 		long miner = end.getTime().getTime() - start.getTime().getTime();
 		int resul2 = (int) (miner / (24 * 60 * 60 * 1000));
+		if(resul2==0)
+		{
+			resul2=1;
+		}
+		
 		for (int i = 0; i < resul2; i++) {
 
-			end.add(Calendar.DAY_OF_MONTH, -1);
-
+			
+			System.out.println(turn.format(end.getTime()));
 			String time4 = year.format(end.getTime());
 
 			File year3 = new File("date/" + time4);
@@ -560,6 +571,7 @@ public class statistics {
 				i += result;
 
 			}
+			end.add(Calendar.DAY_OF_MONTH, -1);
 		}
 		return daylistmodel;
 
