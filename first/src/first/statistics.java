@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 import java.awt.Choice;
@@ -135,7 +136,7 @@ public class statistics {
 		contentPane.add(lblNewLabel_11);
 
 		JLabel qq = new JLabel("가장 자주 먹은 음식");
-		qq.setBounds(12, 67, 112, 15);
+		qq.setBounds(12, 67, 135, 15);
 		contentPane.add(qq);
 
 		JLabel qqqq = new JLabel("가장 많이한 운동");
@@ -148,19 +149,19 @@ public class statistics {
 
 		mosteat = new JTextField();
 		mosteat.setEditable(false);
-		mosteat.setBounds(136, 67, 165, 21);
+		mosteat.setBounds(159, 67, 165, 21);
 		contentPane.add(mosteat);
 		mosteat.setColumns(10);
 
 		mostwork = new JTextField();
 		mostwork.setEditable(false);
-		mostwork.setBounds(136, 94, 165, 21);
+		mostwork.setBounds(159, 94, 165, 21);
 		contentPane.add(mostwork);
 		mostwork.setColumns(10);
 
 		eatover = new JTextField();
 		eatover.setEditable(false);
-		eatover.setBounds(136, 121, 165, 21);
+		eatover.setBounds(159, 121, 165, 21);
 		contentPane.add(eatover);
 		eatover.setColumns(10);
 
@@ -290,7 +291,7 @@ public class statistics {
 				if (differyear) {
 					frame.endmon.select(monlist2.length - 1);
 				}
-				
+
 				Collections.sort(daylist);
 				Integer[] daylist2 = daylist.toArray(new Integer[daylist.size()]);
 				daylist.removeAll(daylist);
@@ -329,26 +330,22 @@ public class statistics {
 
 		if (EatFoodbig[0] != 0) {
 			frame.mosteat.setText(frame.Food[EatFoodbig[1]][5] + "  " + EatFoodbig[0] + "번");
-		}
-		else {
+		} else {
 			frame.mosteat.setText("");
 		}
 		if (savelistbig[0] != 0) {
 			frame.mostwork.setText(frame.mettable[(int) savelistbig[1]][0] + "  " + toTime(savelistbig[0]));
-		}
-		else {
+		} else {
 			frame.mostwork.setText("");
 		}
-		if(frame.penalty!=0)
-		{
-			frame.eatover.setText(frame.penalty+"번");
-		}
-		else {
+		if (frame.penalty != 0) {
+			frame.eatover.setText(frame.penalty + "번");
+		} else {
 			frame.eatover.setText("");
 		}
 		frame.savelist = new long[frame.savelist.length];
 		frame.EatFood = new int[frame.EatFood.length];
-		frame.penalty=0;
+		frame.penalty = 0;
 		// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		frame.daycar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -397,11 +394,10 @@ public class statistics {
 				if (savelistbig[0] != 0) {
 					frame.mostwork.setText(frame.mettable[(int) savelistbig[1]][0] + "  " + toTime(savelistbig[0]));
 				}
-				if(frame.penalty!=0)
-				{
-					frame.eatover.setText(frame.penalty+"번");
+				if (frame.penalty != 0) {
+					frame.eatover.setText(frame.penalty + "번");
 				}
-				frame.penalty=0;
+				frame.penalty = 0;
 			}
 		});
 		frame.daylist3 = frame.daylist2.clone();
@@ -533,54 +529,54 @@ public class statistics {
 		ArrayList<String> daylistmodel = new ArrayList<String>();
 		long miner = end.getTime().getTime() - start.getTime().getTime();
 		int resul2 = (int) (miner / (24 * 60 * 60 * 1000));
-		if(resul2==0)
-		{
-			resul2=1;
+		if (resul2 == 0) {
+			resul2 = 1;
 		}
-		
-		for (int i = 0; i < resul2; i++) {
+		if (miner < 0) {
+			JOptionPane.showMessageDialog(null, "시작기간이 종료기간보다 클수없습니다");
+		} else {
+			for (int i = 0; i < resul2; i++) {
 
-			
-			
-			String time4 = year.format(end.getTime());
+				String time4 = year.format(end.getTime());
 
-			File year3 = new File("date/" + time4);
-			// --------------------------
-			if (year3.isDirectory()) {// 연도 확인
-				String time5 = mon.format(end.getTime());
-				File year4 = new File("date/" + time4 + "/" + time5);
-				if (year4.isDirectory()) {// 달 확인
-					String time6 = day.format(end.getTime());
-					File year5 = new File("date/" + time4 + "/" + time5 + "/" + time6);
+				File year3 = new File("date/" + time4);
+				// --------------------------
+				if (year3.isDirectory()) {// 연도 확인
+					String time5 = mon.format(end.getTime());
+					File year4 = new File("date/" + time4 + "/" + time5);
+					if (year4.isDirectory()) {// 달 확인
+						String time6 = day.format(end.getTime());
+						File year5 = new File("date/" + time4 + "/" + time5 + "/" + time6);
 
-					if (year5.isDirectory()) {// 일확인
-						daylistmodel.add(year.format(end.getTime()) + "/" + mon.format(end.getTime()) + "/"
-								+ day.format(end.getTime()));
+						if (year5.isDirectory()) {// 일확인
+							daylistmodel.add(year.format(end.getTime()) + "/" + mon.format(end.getTime()) + "/"
+									+ day.format(end.getTime()));
 
+						} else {
+
+						}
 					} else {
-
+						Calendar time = Calendar.getInstance();
+						time.set(Integer.parseInt(year.format(end.getTime())),
+								Integer.parseInt(mon.format(end.getTime())) - 1, 1);
+						long miner2 = end.getTime().getTime() - time.getTime().getTime();
+						int result = (int) (miner2 / (24 * 60 * 60 * 1000));
+						end.add(Calendar.DAY_OF_MONTH, -result);
+						i += result;
 					}
-				} else {
+				}
+				// ---------------------------------
+				else {
 					Calendar time = Calendar.getInstance();
-					time.set(Integer.parseInt(year.format(end.getTime())),
-							Integer.parseInt(mon.format(end.getTime())) - 1, 1);
+					time.set(Integer.parseInt(year.format(end.getTime())), 0, 1);
 					long miner2 = end.getTime().getTime() - time.getTime().getTime();
 					int result = (int) (miner2 / (24 * 60 * 60 * 1000));
 					end.add(Calendar.DAY_OF_MONTH, -result);
 					i += result;
-				}
-			}
-			// ---------------------------------
-			else {
-				Calendar time = Calendar.getInstance();
-				time.set(Integer.parseInt(year.format(end.getTime())), 0, 1);
-				long miner2 = end.getTime().getTime() - time.getTime().getTime();
-				int result = (int) (miner2 / (24 * 60 * 60 * 1000));
-				end.add(Calendar.DAY_OF_MONTH, -result);
-				i += result;
 
+				}
+				end.add(Calendar.DAY_OF_MONTH, -1);
 			}
-			end.add(Calendar.DAY_OF_MONTH, -1);
 		}
 		return daylistmodel;
 

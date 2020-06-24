@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
 import java.awt.Choice;
@@ -607,7 +608,9 @@ public class review {
 		ArrayList<String> daylistmodel = new ArrayList<String>();
 		long miner = end.getTime().getTime() - start.getTime().getTime();
 		int resul2 = (int) (miner / (24 * 60 * 60 * 1000));
-		for (int i = 0; i < resul2 + 1; i++) {
+		if(miner<0) {
+			JOptionPane.showMessageDialog(null, "시작기간이 종료기간보다 클수없습니다");
+		}else{for (int i = 0; i < resul2 + 1; i++) {
 
 			String time4 = year.format(end.getTime());
 			File year3 = new File("date/" + time4);
@@ -647,7 +650,7 @@ public class review {
 
 			}
 			end.add(Calendar.DAY_OF_MONTH, -1);
-		}
+		}}
 		return daylistmodel;
 
 	}
