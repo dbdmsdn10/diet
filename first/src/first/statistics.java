@@ -330,12 +330,21 @@ public class statistics {
 		if (EatFoodbig[0] != 0) {
 			frame.mosteat.setText(frame.Food[EatFoodbig[1]][5] + "  " + EatFoodbig[0] + "번");
 		}
+		else {
+			frame.mosteat.setText("");
+		}
 		if (savelistbig[0] != 0) {
 			frame.mostwork.setText(frame.mettable[(int) savelistbig[1]][0] + "  " + toTime(savelistbig[0]));
+		}
+		else {
+			frame.mostwork.setText("");
 		}
 		if(frame.penalty!=0)
 		{
 			frame.eatover.setText(frame.penalty+"번");
+		}
+		else {
+			frame.eatover.setText("");
 		}
 		frame.savelist = new long[frame.savelist.length];
 		frame.EatFood = new int[frame.EatFood.length];

@@ -435,6 +435,8 @@ public class review {
 			}
 			frame.morninglist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
+			DefaultListModel model = new DefaultListModel();
+			frame.morninglist.setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -455,6 +457,10 @@ public class review {
 			}
 			frame.lunchlist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
+			
+			frame.lunchlist.removeAll();
+			DefaultListModel model = new DefaultListModel();
+			frame.lunchlist.setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -474,6 +480,8 @@ public class review {
 			}
 			frame.dinnerlist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
+			DefaultListModel model = new DefaultListModel();
+			frame.dinnerlist.setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -493,6 +501,8 @@ public class review {
 			}
 			frame.snacklist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
+			DefaultListModel model = new DefaultListModel();
+			frame.snacklist.setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -517,6 +527,8 @@ public class review {
 
 			frame.worklist.setModel(model);
 		} catch (IOException q) {// 파일 읽기 오류
+			DefaultListModel model = new DefaultListModel();
+			frame.worklist.setModel(model);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -533,6 +545,7 @@ public class review {
 
 			frame.totaleat.setText(a + " kcal");
 		} catch (IOException q) {// 파일 읽기 오류
+			frame.totaleat.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -548,6 +561,7 @@ public class review {
 
 			frame.totalwork.setText(a + " kcal");
 		} catch (IOException q) {// 파일 읽기 오류
+			frame.totalwork.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -564,6 +578,8 @@ public class review {
 
 			frame.penalty.setText(a + " kcal");
 		} catch (IOException q) {// 파일 읽기 오류
+			
+			frame.penalty.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -602,11 +618,11 @@ public class review {
 				if (year4.isDirectory()) {// 달 확인
 					String time6 = day.format(end.getTime());
 					File year5 = new File("date/" + time4 + "/" + time5 + "/" + time6);
-					
+
 					if (year5.isDirectory()) {// 일확인
 						daylistmodel.add(year.format(end.getTime()) + "/" + mon.format(end.getTime()) + "/"
 								+ day.format(end.getTime()));
-						
+
 					} else {
 
 					}
